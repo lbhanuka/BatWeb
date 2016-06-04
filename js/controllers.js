@@ -65,7 +65,7 @@ app.controller('MapCtrl', function ($scope, $http) {
 
     var ShowAllSightings = function() {
 
-        $http.get("http://localhost:8080/BatMAP_J2EE_API/sightingservice/getall").then(function (response) {
+        $http.get("http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/sightingservice/getall").then(function (response) {
         $scope.allsightings = response.data.allsightings;
 
         angular.forEach($scope.allsightings, function(value, key) {
