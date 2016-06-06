@@ -4,7 +4,17 @@
 app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
   console.log("Blog Controller reporting for duty.");
 });
+/**
+ * login controller
+ */
 
+app.controller('LoginCtrl',function(){
+        document.getElementById("signin_btn").addEventListener("click", function(){
+           var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+        });
+    }
+);
 /**
  * Controls all other Pages
  */
