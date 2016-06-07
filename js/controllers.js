@@ -8,13 +8,32 @@ app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
  * login controller
  */
 
-app.controller('LoginCtrl',function(){
-        document.getElementById("signin_btn").addEventListener("click", function(){
-           var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
-        });
-    }
-);
+app.controller('LoginCtrl',function($http){
+    document.getElementById("signin_btn").addEventListener("click",function () {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        if(email != null && password != null){
+            var parameter = JSON.stringify({"email": email,"password":password});
+            $http({
+                url:"http://localhost:8080/userservice/signin",
+                method: "POST",
+                data: parameter
+            }).then(function successCallback(response) {
+                if(response.data.signin == true){
+                    alert("Sign in successfull");
+                }else if(response.data.signin == false){
+                    alert("Sign in failed");
+                }
+            },function errorCallback(response) {
+                alert("Error occurred");
+            });
+        }else{
+            alert("fields are empty");
+        }
+
+
+    });
+});
 /**
  * Controls all other Pages
  */
