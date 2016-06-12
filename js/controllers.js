@@ -9,7 +9,7 @@ app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
  * login controller
  */
 
-app.controller('LoginCtrl',function($scope,$http){
+app.controller('LoginCtrl',function($scope,$http,$window){
     // function to submit the form after all validation has occurred
     $scope.submitSigninForm = function() {
         // check to make sure the form is completely valid
@@ -23,6 +23,15 @@ app.controller('LoginCtrl',function($scope,$http){
             }).then(function successCallback(response) {
                 if(response.data.signin == true){
                     alert("Sign in successful");
+                    // storing session variables
+                    $window.sessionStorage.setItem("usr", JSON.stringify(response.data));
+
+                    // page re-directions for user types
+                    if(response.data.user_type == "researcher"){
+                        window.location.href="index.html#/researcher";
+                    }else if(response.data.user_type == "administrator"){
+                        window.location.href="index.html#/administrator";
+                    }
                 }else if(response.data.signin == false){
                     alert("Sign in failed");
                 }
@@ -31,11 +40,6 @@ app.controller('LoginCtrl',function($scope,$http){
             });
         }
     };
-        
-          
-        
-
-
    
 });
 
@@ -48,7 +52,6 @@ app.controller('RegisterCtrl',function($scope,$http){
 
         // check to make sure the form is completely valid
         if ($scope.signupForm.$valid) {
-            // alert($scope.email+" "+$scope.password+" "+$scope.first_name);
             var parameter = JSON.stringify({"email": $scope.email,
                 "password":$scope.password,
                 "confirmpassword":$scope.confirmpassword,
@@ -62,12 +65,12 @@ app.controller('RegisterCtrl',function($scope,$http){
                 data: parameter
             }).then(function successCallback(response) {
                 if(response.data.signup == true){
-                    alert("Sign in successfull");
+                    alert("Sign up successful");
                 }else if(response.data.signup == false){
                     if(response.data.passwordNotEquals == true){
-                        alert("Sign in failed. Password not equals");
+                        alert("Sign up failed. Password not equals");
                     }else {
-                        alert("Sign in failed");
+                        alert("Sign up failed");
                     }
 
                 }
@@ -79,6 +82,99 @@ app.controller('RegisterCtrl',function($scope,$http){
     };
 
 });
+
+/**
+ * researcher page controller
+ */
+app.controller('ResearcherCtrl',function ($scope,$http,$window) {
+    if($window.sessionStorage.getItem("usr")== null){
+        window.location.href = "index.html#/signin";
+    }
+    var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+
+});
+
+/**
+ * administrator page controller
+ */
+app.controller('AdministratorCtrl',function ($scope,$http,$window) {
+    if($window.sessionStorage.getItem("usr")== null){
+        window.location.href = "index.html#/signin";
+    }
+    var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+
+});
+
+/**
+ * update profile page controller
+ */
+app.controller('ProfileCtrl',function ($scope,$http,$window) {
+    if($window.sessionStorage.getItem("usr")== null){
+        window.location.href = "index.html#/signin";
+    }
+    var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+    var usremail = usr.email;
+
+    //getting user details from API
+    $http({
+        url:"http://localhost:8080/userservice/getuser/"+usremail,
+        method: "GET"
+    }).then(function successCallback(response) {
+        if(response.data.getdetails == true){
+            $scope.email = response.data.email;
+            $scope.first_name = response.data.first_name;
+            $scope.last_name = response.data.last_name;
+            $scope.institute = response.data.institute;
+            $scope.password = response.data.password;
+            $scope.confirmpassword = response.data.password;
+            // alert("Get details successful");
+            // alert(JSON.stringify(response.data));
+        }else if(response.data.getdetails == false){
+            // alert("get details failed");
+        }
+    },function errorCallback(response) {
+        alert("Error occurred while retrieving data");
+    });
+
+    //update after all validations
+    $scope.submitUpdateForm = function() {
+
+        // check to make sure the form is completely valid
+        if ($scope.updateForm.$valid) {
+            var parameter = JSON.stringify({"email": usremail,
+                "password":$scope.password,
+                "confirmpassword":$scope.confirmpassword,
+                "first_name":$scope.first_name,
+                "last_name":$scope.last_name,
+                "institute":$scope.institute
+            });
+            $http({
+                url:"http://localhost:8080/userservice/updateprofile",
+                method: "POST",
+                data: parameter
+            }).then(function successCallback(response) {
+                if(response.data.updated == true){
+                    alert("Update successful");
+                }else if(response.data.updated == false){
+                    if(response.data.passwordNtEquals == true){
+                        alert("Update failed. Password not equals");
+                    }else {
+                        alert("Update failed");
+                    }
+
+                }
+            },function errorCallback(response) {
+                alert("Error occurred");
+            });
+        }
+
+    };
+
+
+
+});
+
+
 
 /**
  * Controls all other Pages
@@ -107,7 +203,7 @@ app.controller('MapCtrl', function ($scope, $http) {
         zoom: 8,
         center: new google.maps.LatLng(7.642650, 80.674438),
         mapTypeId: google.maps.MapTypeId.TERRAIN
-    }
+    };
 
     $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -131,12 +227,12 @@ app.controller('MapCtrl', function ($scope, $http) {
 
         $scope.markers.push(marker);
 
-    }
+    };
 
     $scope.openInfoWindow = function(e, selectedMarker){
         e.preventDefault();
         google.maps.event.trigger(selectedMarker, 'click');
-    }
+    };
 
     var ShowAllSightings = function() {
 
