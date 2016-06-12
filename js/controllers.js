@@ -4,36 +4,82 @@
 app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
   console.log("Blog Controller reporting for duty.");
 });
+
 /**
  * login controller
  */
 
-app.controller('LoginCtrl',function($http){
-    document.getElementById("signin_btn").addEventListener("click",function () {
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
-        if(email != null && password != null){
-            var parameter = JSON.stringify({"email": email,"password":password});
+app.controller('LoginCtrl',function($scope,$http){
+    // function to submit the form after all validation has occurred
+    $scope.submitSigninForm = function() {
+        // check to make sure the form is completely valid
+        if ($scope.signinForm.$valid) {
+
+            var parameter = JSON.stringify({"email": $scope.email,"password": $scope.password});
             $http({
                 url:"http://localhost:8080/userservice/signin",
                 method: "POST",
                 data: parameter
             }).then(function successCallback(response) {
                 if(response.data.signin == true){
-                    alert("Sign in successfull");
+                    alert("Sign in successful");
                 }else if(response.data.signin == false){
                     alert("Sign in failed");
                 }
             },function errorCallback(response) {
                 alert("Error occurred");
             });
-        }else{
-            alert("fields are empty");
+        }
+    };
+        
+          
+        
+
+
+   
+});
+
+/**
+ * register controller
+ */
+app.controller('RegisterCtrl',function($scope,$http){
+    // function to submit the form after all validation has occurred
+    $scope.submitSignupForm = function() {
+
+        // check to make sure the form is completely valid
+        if ($scope.signupForm.$valid) {
+            // alert($scope.email+" "+$scope.password+" "+$scope.first_name);
+            var parameter = JSON.stringify({"email": $scope.email,
+                "password":$scope.password,
+                "confirmpassword":$scope.confirmpassword,
+                "first_name":$scope.first_name,
+                "last_name":$scope.last_name,
+                "institute":$scope.institute
+            });
+            $http({
+                url:"http://localhost:8080/userservice/signup",
+                method: "POST",
+                data: parameter
+            }).then(function successCallback(response) {
+                if(response.data.signup == true){
+                    alert("Sign in successfull");
+                }else if(response.data.signup == false){
+                    if(response.data.passwordNotEquals == true){
+                        alert("Sign in failed. Password not equals");
+                    }else {
+                        alert("Sign in failed");
+                    }
+
+                }
+            },function errorCallback(response) {
+                alert("Error occurred");
+            });
         }
 
+    };
 
-    });
 });
+
 /**
  * Controls all other Pages
  */

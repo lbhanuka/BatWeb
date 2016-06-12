@@ -17,23 +17,28 @@
 
     <div class="row">
         <div class=" col-xs-12">
-            <div class="col-xs-6 col-xs-offset-3">
-                <!--<form role="form"  name="signinForm" >-->
-                    <div class="form-content">
-                        <div class="form-group">
-                            <input id="email" name="email" class="form-control input-underline input-lg"  ng-model="email" placeholder="Email" type="email">
-                            <!--<span ng-show="signinForm.email.$valid">invalid</span>-->
-                            <!--<span ng-show="signinForm.email.$error.required">req</span>-->
-                        </div>
-
-                        <div class="form-group">
-                            <input id="password" name="password" class="form-control input-underline input-lg" ng-model="password" placeholder="Password" type="password">
-
-                        </div>
+            <div class="col-xs-6">
+                <!-- form -->
+                <form name="signinForm" ng-submit="submitSigninForm()" novalidate>
+                    <!-- email -->
+                    <div class="form-group" ng-class="{ 'has-error' : signinForm.email.$invalid && !signinForm.email.$pristine }">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" ng-model="email">
+                        <p ng-show="signinForm.email.$invalid && !signinForm.email.$pristine" class="help-block">Enter a valid email.</p>
                     </div>
-                   <a id="signin_btn" type="submit" class="btn btn-lg btn-primary col-xs-7">Sign in</a>
-                    <a class="btn btn-lg btn-info col-xs-3 col-xs-offset-2">Sign up</a>
-                <!--</form>-->
+
+                    <!-- password -->
+                    <div class="form-group" ng-class="{ 'has-error' : signinForm.password.$invalid && !signinForm.password.$pristine }">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" ng-model="password" required>
+                        <p ng-show="signinForm.password.$invalid && !signinForm.password.$pristine" class="help-block">password is required.</p>
+                        <!--<p ng-show="signinForm.password.$error.minlength" class="help-block">password is too short.</p>-->
+                        <!--<p ng-show="signinForm.password.$error.maxlength" class="help-block">password is too long.</p>-->
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" ng-disabled="signinForm.$invalid">Sign in</button>
+                    <a class="btn btn-lg btn-info">Sign up</a>
+                </form>
             </div>
             <div id="jsnresp">
 

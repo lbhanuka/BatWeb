@@ -19,7 +19,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
     // Pages
     .when("/signin", {templateUrl: "partials/signin.html", controller: "LoginCtrl"})
-    .when("/signup", {templateUrl: "partials/signup.html", controller: "PageCtrl"})
+    .when("/signup", {templateUrl: "partials/signup.html", controller: "RegisterCtrl"})
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
     .when("/research", {templateUrl: "partials/faq.html", controller: "PageCtrl"})
     .when("/distribution", {templateUrl: "partials/distribution.html", controller: "MapCtrl"})
