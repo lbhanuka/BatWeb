@@ -179,19 +179,45 @@ app.controller('ProfileCtrl',function ($scope,$http,$window) {
 /**
  * Controls all other Pages
  */
-app.controller('PageCtrl', function (/* $scope, $location, $http */) {
-  console.log("Page Controller reporting for duty.");
+app.controller('PageCtrl', function ($scope, $http) {
+    console.log("Page Controller reporting for duty.");
 
-  // Activates the Carousel
-  $('.carousel').carousel({
-    interval: 5000
-  });
-
-  // Activates Tooltips for Social Links
-  $('.tooltip-social').tooltip({
+    // Activates the Carousel
+    $('.carousel').carousel({
+        interval: 5000
+    });
+    
+    $scope.showAllNews = function() {
+        $scope.newsposts = [];
+        $scope.currentPage = 0;
+        $scope.pageSize = 3;
+        $http.get("http://localhost:8080/BatMAP_J2EE_API/newsservice/gettennews").then(function (response) {
+            $scope.newsposts = response.data.news;
+        })
+        $scope.numberOfPages=function(){
+            return Math.ceil($scope.newsposts.length/$scope.pageSize);                
+        }
+    };
+    
+    $scope.disabled = function() {
+        if($scope.addInviteesDisabled) { return false;}
+    };
+    
+    console.log("All news reporting for duty.");
+    // Activates Tooltips for Social Links
+    $('.tooltip-social').tooltip({
     selector: "a[data-toggle=tooltip]"
-  })
+    })
 });
+
+app.filter('startFrom', function() {
+    return function(input, start) {
+        console.log("Filter reporting for duty.");
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});
+
 
 /**
  * Controls the Distribution map page
