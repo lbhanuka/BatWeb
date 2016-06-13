@@ -10,6 +10,15 @@ app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
  */
 
 app.controller('LoginCtrl',function($scope,$http,$window){
+    //check is logged in
+    if($window.sessionStorage.getItem("usr")!= null){
+        var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+        if(usr.user_type=="administrator"){
+            window.location.href = "index.html#/administrator";
+        }else if(usr.user_type == "researcher"){
+            window.location.href = "index.html#/researcher";
+        }
+    }
     // function to submit the form after all validation has occurred
     $scope.submitSigninForm = function() {
         // check to make sure the form is completely valid
@@ -44,9 +53,37 @@ app.controller('LoginCtrl',function($scope,$http,$window){
 });
 
 /**
+ * signout controller
+ */
+app.controller('SignoutCtrl',function ($scope,$window) {
+    $scope.signoutFunc = function () {
+        if(confirm("Are you sure?")){
+            $window.sessionStorage.removeItem('usr');
+            window.location.href = "index.html#/signin";
+        }
+        
+    };
+    $scope.isSignedin = function () {
+        if($window.sessionStorage.getItem("usr") == null){
+            return false;
+        }else {
+            return true;
+        }
+    };
+});
+/**
  * register controller
  */
-app.controller('RegisterCtrl',function($scope,$http){
+app.controller('RegisterCtrl',function($scope,$http,$window){
+    //check is logged in
+    if($window.sessionStorage.getItem("usr")!= null){
+        var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+        if(usr.user_type=="administrator"){
+            window.location.href = "index.html#/administrator";
+        }else if(usr.user_type == "researcher"){
+            window.location.href = "index.html#/researcher";
+        }
+    }
     // function to submit the form after all validation has occurred
     $scope.submitSignupForm = function() {
 

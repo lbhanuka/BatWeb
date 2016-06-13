@@ -56,10 +56,10 @@
         <li>
             <a href="#/sightings"><i class="fa fa-fw fa-bar-chart-o"></i> Sightings</a>
         </li>
-        <li>
+        <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
             <a href="#/signin"><i class="fa fa-fw fa-lock"></i> Signin</a>
         </li>
-        <li>
+        <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
             <a href="#/signup"><i class="fa fa-fw fa-book"></i> Signup</a>
         </li>
         <li>
@@ -84,6 +84,9 @@
                     <a href="#/blog/post">View One Post</a>
                 </li>
             </ul> -->
+        </li>
+        <li ng-controller="SignoutCtrl" ng-click="signoutFunc()" ng-show="isSignedin()">
+            <a href=""><i class="fa fa-fw fa-sign-out"></i>Sign out</a>
         </li>
     </ul>
 </div>
