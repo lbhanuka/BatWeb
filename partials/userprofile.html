@@ -19,13 +19,12 @@
 
             <div class="col-xs-6">
                 <!-- form -->
-
                 <form name="updateForm" ng-submit="submitUpdateForm()" novalidate>
                     <!-- email -->
-                    <div class="form-group" ng-class="{ 'has-error' : updateForm.email.$invalid && !updateForm.email.$pristine }">
+                    <div class="form-group" ng-class="{ 'has-error' : updateForm.email.$invalid && !updateForm.email.$pristine }" title="You cannot change your registered email.">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" ng-model="email">
-                        <p ng-show="updateForm.email.$invalid && !updateForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                        <input type="email" name="email" class="form-control" ng-model="email" ng-disabled="true">
+                        <!--<p ng-show="updateForm.email.$invalid && !updateForm.email.$pristine" class="help-block">Enter a valid email.</p>-->
                     </div>
 
                     <!-- password -->

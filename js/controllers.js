@@ -135,6 +135,15 @@ app.controller('ProfileCtrl',function ($scope,$http,$window) {
     },function errorCallback(response) {
         alert("Error occurred while retrieving data");
     });
+    
+    //enable update button
+    // $scope.enableUpdate = function () {
+    //     if(confirm("Are you sure?")){
+    //         return true;
+    //     }else {
+    //         return false;
+    //     }
+    // };
 
     //update after all validations
     $scope.submitUpdateForm = function() {
