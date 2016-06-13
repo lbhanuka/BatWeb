@@ -51,16 +51,19 @@
 <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
         <li>
-            <a href="#"><i class="fa-fw fa-dashboard"></i> Home</a>
+            <a href="#"><i class="fa fa-fw fa-home"></i> Home</a>
         </li>
-        <li>
-            <a href="#/sightings"><i class="fa fa-fw fa-bar-chart-o"></i> Sightings</a>
+        <li ng-controller="SignoutCtrl" ng-show="isSignedin()" ng-click="goToDashboard()">
+            <a href=""><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
         </li>
         <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
-            <a href="#/signin"><i class="fa fa-fw fa-lock"></i> Signin</a>
+            <a href="#/signin"><i class="fa fa-fw fa-sign-in"></i> Signin</a>
         </li>
         <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
             <a href="#/signup"><i class="fa fa-fw fa-book"></i> Signup</a>
+        </li>
+        <li>
+            <a href="#/sightings"><i class="fa fa-fw fa-bar-chart-o"></i> Sightings</a>
         </li>
         <li>
             <a href="#/distribution"><i class="fa fa-fw fa-table"></i> Distribution</a>
@@ -72,10 +75,10 @@
             <a href="#/about"><i class="fa fa-fw fa-desktop"></i> About</a>
         </li>
         <li>
-            <a href="#/contact"><i class="fa fa-fw fa-wrench"></i> Contact</a>
+            <a href="#/contact"><i class="fa fa-fw fa-phone"></i> Contact</a>
         </li>
         <li>
-            <a href="#/blog" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Forum </a>
+            <a href="#/blog" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-list"></i> Forum </a>
             <!-- <ul id="demo" class="collapse">
                 <li>
                     <a href="#/blog">List of Posts</a>

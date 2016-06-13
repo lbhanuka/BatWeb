@@ -70,6 +70,17 @@ app.controller('SignoutCtrl',function ($scope,$window) {
             return true;
         }
     };
+
+    $scope.goToDashboard = function () {
+        var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+        if(usr.user_type=="administrator"){
+            window.location.href = "index.html#/administrator";
+        }else if(usr.user_type=="researcher"){
+            window.location.href = "index.html#/researcher";
+        }
+
+    };
+
 });
 /**
  * register controller
@@ -128,6 +139,11 @@ app.controller('ResearcherCtrl',function ($scope,$http,$window) {
         window.location.href = "index.html#/signin";
     }
     var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+    if(usr.user_type=="administrator"){
+        window.location.href = "index.html#/administrator";
+    }else if(usr.user_type=="researcher"){
+        window.location.href = "index.html#/researcher";
+    }
 
 });
 
@@ -139,6 +155,11 @@ app.controller('AdministratorCtrl',function ($scope,$http,$window) {
         window.location.href = "index.html#/signin";
     }
     var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+    if(usr.user_type=="administrator"){
+        window.location.href = "index.html#/administrator";
+    }else if(usr.user_type=="researcher"){
+        window.location.href = "index.html#/researcher";
+    }
 
 });
 
