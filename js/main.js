@@ -7,12 +7,13 @@
  * Main AngularJS Web Application
  */
 var app = angular.module('tutorialWebApp', [
-  'ngRoute'
+  'ngRoute','uiSwitch'
 ]);
 
 /**
  * Configure the Routes
  */
+
 app.config(['$routeProvider', function ($routeProvider) {
   $routeProvider
     // Home
@@ -26,7 +27,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
     .when("/research", {templateUrl: "partials/faq.html", controller: "PageCtrl"})
     .when("/distribution", {templateUrl: "partials/distribution.html", controller: "MapCtrl"})
-    .when("/sightings", {templateUrl: "partials/services.html", controller: "PageCtrl"})
+    .when("/sightings", {templateUrl: "partials/sightings.html", controller: "PageCtrl"})
     .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})
     // Blog
     .when("/blog", {templateUrl: "partials/blog.html", controller: "BlogCtrl"})

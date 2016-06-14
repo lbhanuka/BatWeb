@@ -2,25 +2,48 @@
 
     <div class="row">
 
-        <div class="col-lg-4">
-            <div style="padding-top:15px">
-              <ol class="breadcrumb" style="">
-                  <li><a href="../index.html">Home</a>
-                  </li>
-                  <li class="active">Distribution</li>
-              </ol>
+        <div class="col-lg-5">
+            <div class="row" style="padding-top:10px; padding-left:10px">
+                <div>
+                  <ol class="breadcrumb" style="">
+                      <li><a href="../index.html">Home</a>
+                      </li>
+                      <li class="active">Distribution</li>
+                  </ol>
+                </div>
+                <h1 class="page-header">Distribution
+                    <small>map of bat sightings in Sri Lanka</small>
+                </h1>
             </div>
-            <h1 class="page-header">Distribution
-                <small>map of bat sightings in Sri Lanka</small>
-            </h1>
+            <div class="row" style="padding-left:10px; width:435px;">
+              <div class="well" style="background-color:#b29d85;">
+                  <div style="height: 60px;">
+                    <h4 style="float: left; padding-bottom: 15px;">Species Filter</h4>
+                    <div style="float: right; position: absolute; left: 210px; padding-top: 5px;">
+                      <button type="button" class="btn btn-primary btn-sm" ng-click="hideAllMarkers()">Hide All</button>
+                      <button type="button" class="btn btn-primary btn-sm" ng-click="showAllMarkers()">Show All</button>
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <div id="class" ng-repeat="species in allspecies">
+                         <div style="height: 40px; padding-left: 20px">
+                           <div style="float: left; padding-top: 5px;">
+                             {{species.species_name}}
+                           </div>
+                           <div style="float: right; position: absolute; left: 220px;">
+                             <switch name="yesNo" ng-model="species.show" class="small" ng-click="toggle(species.species_id)"></switch>
+                           </div>
+                         </div>
+                    </div>
+                  </div>
+                  <!-- /input-group -->
+              </div>
+            </div>
         </div>
 
-      <div class="col-lg-8">
-        <div id="map"></div>
-        <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
-             <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+        <div class="col-lg-7">
+          <div id="map"></div
         </div>
-    </div>
     </div>
 
 </div>

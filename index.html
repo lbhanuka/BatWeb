@@ -23,6 +23,7 @@
 
     <!-- Our Website CSS Styles -->
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/angular-ui-switch.css"/>
 
 </head>
 <body ng-app="tutorialWebApp">
@@ -32,7 +33,7 @@
 <![endif]-->
 
 <!-- Our Website Content Goes Here -->
-<div ng-include='"templates/header.html"' ></div>
+<div ng-include='"templates/header.html"'></div>
 <div ng-view></div>
 <div ng-include='"templates/footer.html"'></div>
 
@@ -43,6 +44,8 @@
 
 <!-- Vendor: Angular, followed by our custom Javascripts -->
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+<script src="js/angular-ui-switch.js"></script>
+
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.min.js"></script>
 
 <!-- Our Website Javascripts -->
