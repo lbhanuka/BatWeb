@@ -197,15 +197,6 @@ app.controller('ProfileCtrl',function ($scope,$http,$window) {
     },function errorCallback(response) {
         alert("Error occurred while retrieving data");
     });
-    
-    //enable update button
-    // $scope.enableUpdate = function () {
-    //     if(confirm("Are you sure?")){
-    //         return true;
-    //     }else {
-    //         return false;
-    //     }
-    // };
 
     //update after all validations
     $scope.submitUpdateForm = function() {
@@ -240,11 +231,68 @@ app.controller('ProfileCtrl',function ($scope,$http,$window) {
         }
 
     };
-
-
-
 });
 
+/**
+ * sign up request controller - admin
+ */
+app.controller("SignupRequestCtrl",function ($scope,$http,$window,$route) {
+    $scope.getRequest = function () {
+        $http({
+            url:"http://localhost:8080/userservice/getpendinglist",
+            method: "GET"
+        }).then(function successCallback(response) {
+            if(response.data.pending == true){
+                $scope.datalist = response.data.pendingList;
+            }else if(response.data.pending == false){
+                $scope.nopending = "No pending requests found.";
+            }
+        },function errorCallback(response) {
+            alert("Error occurred");
+        });
+    };
+    $scope.activateAcc = function (usremail) {
+        if(confirm("Confirm to activate "+usremail+".")){
+            var parameter = JSON.stringify({"email": usremail,"type":"act"});
+            $http({
+                url:"http://localhost:8080/userservice/manageaccount",
+                method: "POST",
+                data: parameter
+            }).then(function successCallback(response) {
+                if(response.data.activated == true){
+                    alert("Activated.");
+                    $route.reload();
+                }else if(response.data.activated == false){
+                    alert("Activation failed.");
+                }
+            },function errorCallback(response) {
+                alert("Error occurred");
+            });
+        }
+    };
+
+    $scope.deactivateAcc = function (usremail) {
+        if(confirm("Confirm to deactivate "+usremail+".")){
+            var parameter = JSON.stringify({"email": usremail,"type":"deact"});
+            $http({
+                url:"http://localhost:8080/userservice/manageaccount",
+                method: "POST",
+                data: parameter
+            }).then(function successCallback(response) {
+                if(response.data.deactivated == true){
+                    alert("Deactivated.");
+                    $route.reload();
+                }else if(response.data.deactivated == false){
+                    alert("Deactivation failed.");
+                }
+            },function errorCallback(response) {
+                alert("Error occurred");
+            });
+        }
+
+    };
+
+});
 
 
 /**
