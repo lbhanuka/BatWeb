@@ -42,7 +42,11 @@ app.controller('LoginCtrl',function($scope,$http,$window){
                         window.location.href="index.html#/administrator";
                     }
                 }else if(response.data.signin == false){
-                    alert("Sign in failed");
+                    if(response.data.acc_status == "deactivated"){
+                        alert("Sign in failed. Your account is deactivated. Please contact administrator.");
+                    }else if(response.data.acc_status == "pending"){
+                        alert("Sign in failed. Your sign up request is still in pending.");
+                    }
                 }
             },function errorCallback(response) {
                 alert("Error occurred");

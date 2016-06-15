@@ -21,6 +21,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     // Pages
     .when("/signin", {templateUrl: "partials/signin.html", controller: "LoginCtrl"})
     .when("/signup", {templateUrl: "partials/signup.html", controller: "RegisterCtrl"})
+    .when("/signupRequest", {templateUrl: "partials/signuprequest.html", controller: "SignupRequestCtrl"})
     .when("/researcher", {templateUrl: "partials/researcher.html", controller: "ResearcherCtrl"})
     .when("/administrator", {templateUrl: "partials/administrator.html", controller: "AdministratorCtrl"})
     .when("/profile", {templateUrl: "partials/userprofile.html", controller: "ProfileCtrl"})
