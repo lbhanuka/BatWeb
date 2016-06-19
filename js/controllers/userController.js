@@ -164,9 +164,11 @@ app.controller('RegisterCtrl',function($rootScope,$scope,$http,$window){
                     // alert("Sign up successful");
                     swal({
                         title: "Sign up successful.",
+                        text: "Please sign in.",
                         type: "success",
                         timer: 3000
                     });
+                    window.location.href = "index.html#/signin";
                 }else if(response.data.signup == false){
                     if(response.data.passwordNotEquals == true){
                         // alert("Sign up failed. Password not equals");
