@@ -13,34 +13,27 @@
             <a class="navbar-brand" href="#/">BATMAP</a>
         </div>
 
-		
-		
-		
-		
+
+
+
+
         <!-- Collect the nav links, forms, and other content for toggling -->
-    <!--     <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/sightings">Sightings</a>
+                <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
+                    <a href="#/signin"><i class="fa fa-fw fa-sign-in"></i> Signin</a>
                 </li>
-                <li><a href="#/distribution">Distribution</a>
+                <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
+                    <a href="#/signup"><i class="fa fa-fw fa-book"></i> Signup</a>
                 </li>
-                <li><a href="#/research">Research</a>
+                <li ng-controller="SignoutCtrl" ng-show="isSignedin()">
+                    <a href="">{{signedinas}}</a>
                 </li>
-                <li><a href="#/about">About</a>
-                </li>
-                <li><a href="#/contact">Contact</a>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">Forum <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#/blog">List of Posts</a>
-                        </li>
-                        <li><a href="#/blog/post">View One Post</a>
-                        </li>
-                    </ul>
+                <li ng-controller="SignoutCtrl" ng-click="signoutFunc()" ng-show="isSignedin()">
+                    <a href=""><i class="fa fa-fw fa-sign-out"></i>Sign out</a>
                 </li>
             </ul>
-        </div> -->
+        </div>
         <!-- /.navbar-collapse -->
     </div>
 
@@ -57,12 +50,12 @@
         <li ng-controller="SignoutCtrl" ng-show="isSignedin()" ng-click="goToDashboard()">
             <a href=""><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
         </li>
-        <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
-            <a href="#/signin"><i class="fa fa-fw fa-sign-in"></i> Signin</a>
-        </li>
-        <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
-            <a href="#/signup"><i class="fa fa-fw fa-book"></i> Signup</a>
-        </li>
+        <!--<li ng-controller="SignoutCtrl" ng-hide="isSignedin()">-->
+            <!--<a href="#/signin"><i class="fa fa-fw fa-sign-in"></i> Signin</a>-->
+        <!--</li>-->
+        <!--<li ng-controller="SignoutCtrl" ng-hide="isSignedin()">-->
+            <!--<a href="#/signup"><i class="fa fa-fw fa-book"></i> Signup</a>-->
+        <!--</li>-->
         <li>
             <a href="#/sightings"><i class="fa fa-fw fa-bar-chart-o"></i> Sightings</a>
         </li>
@@ -89,9 +82,9 @@
                 </li>
             </ul> -->
         </li>
-        <li ng-controller="SignoutCtrl" ng-click="signoutFunc()" ng-show="isSignedin()">
-            <a href=""><i class="fa fa-fw fa-sign-out"></i>Sign out</a>
-        </li>
+        <!--<li ng-controller="SignoutCtrl" ng-click="signoutFunc()" ng-show="isSignedin()">-->
+            <!--<a href=""><i class="fa fa-fw fa-sign-out"></i>Sign out</a>-->
+        <!--</li>-->
     </ul>
 </div>
 </div>

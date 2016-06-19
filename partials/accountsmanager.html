@@ -1,0 +1,49 @@
+<div class="container col-xs-10">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <h1 class="page-header">Accounts Manager
+                <!--<small>Department of Zoology, University of Colombo</small>-->
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/BatWeb/index.html">Home</a>
+                </li>
+                <li class="active">Accounts Manager</li>
+            </ol>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="col-xs-11">
+            <span ng-init="getAllAccounts()"></span>
+            <table class="table table-hover" >
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>User Type</th>
+                    <th>Account Status</th>
+                    <th>Settings</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in alldatalist">
+                    <td>{{row.email}}</td>
+                    <td>{{row.first_name}}</td>
+                    <td>{{row.last_name}}</td>
+                    <td>{{row.user_type}}</td>
+                    <td>{{row.acc_status}}</td>
+                    <td>
+                        <button class="btn-xs btn btn-info" ng-click="activateAcc(row.email)">Activate</button>
+                        <button class="btn-xs btn btn-danger" ng-click="deactivateAcc(row.email)">Deactivate</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <span class="text-info">{{noacc}}</span>
+        </div>
+    </div>
+
+</div>

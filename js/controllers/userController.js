@@ -113,6 +113,8 @@ app.controller('SignoutCtrl',function ($rootScope,$scope,$window) {
         if($window.sessionStorage.getItem("usr") == null){
             return false;
         }else {
+            var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+            $scope.signedinas = usr.email;
             return true;
         }
     };
@@ -326,9 +328,10 @@ app.controller('ProfileCtrl',function ($rootScope,$scope,$http,$window) {
 });
 
 /**
- * sign up request controller - admin
+ * Accounts manager controller - admin
  */
-app.controller("SignupRequestCtrl",function ($rootScope,$scope,$http,$window,$route) {
+app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$route) {
+    //sign up requests
     $scope.getRequest = function () {
         $http({
             url:$rootScope.apiHostUrl+"userservice/getpendinglist",
@@ -347,6 +350,28 @@ app.controller("SignupRequestCtrl",function ($rootScope,$scope,$http,$window,$ro
             });
         });
     };
+    
+    //all accounts
+    $scope.getAllAccounts = function () {
+        $http({
+            url:$rootScope.apiHostUrl+"userservice/getallaccountslist",
+            method: "GET"
+        }).then(function successCallback(response) {
+            if(response.data.getAll == true){
+                $scope.alldatalist = response.data.allAccountList;
+            }else if(response.data.getAll == false){
+                $scope.noacc = "No accounts found.";
+            }
+        },function errorCallback(response) {
+            swal({
+                title: "Error in connection",
+                type: "error",
+                timer: 3000
+            });
+        });
+    };
+    
+    
     $scope.activateAcc = function (usremail) {
         swal({
             title: "Are you sure?",
