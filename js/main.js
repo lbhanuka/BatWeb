@@ -27,6 +27,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/administrator", {templateUrl: "partials/user/administrator.html", controller: "AdministratorCtrl"})
     .when("/profile", {templateUrl: "partials/user/userprofile.html", controller: "ProfileCtrl"})
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
+    .when("/news", {templateUrl: "partials/news.html", controller: "NewsCtrl"})
     .when("/research", {templateUrl: "partials/research/researchHome.html", controller: "ResearchHomeCtrl"})
     .when("/distribution", {templateUrl: "partials/distribution.html", controller: "MapCtrl"})
     .when("/sightings", {templateUrl: "partials/sightings.html", controller: "SightingsCtrl"})
