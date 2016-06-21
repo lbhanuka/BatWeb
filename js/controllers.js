@@ -9,8 +9,6 @@ app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
  * Controls the Home Page
  */
 app.controller('HomeCtrl', function ($scope,$http) {
-
-  // pota cntrl reporting for duty
       $scope.showFifteenNews = function() {
           $scope.newsposts = [];
           $scope.currentPage = 0;
@@ -23,8 +21,6 @@ app.controller('HomeCtrl', function ($scope,$http) {
           }
       };
       console.log("All news reporting for duty.");
-
-  // pote cntrl iwarai.
 
   var getAllSpeciesMedium = function() {
 
@@ -89,8 +85,7 @@ app.controller('HomeCtrl', function ($scope,$http) {
   };
 
 });
-
-//pota in application
+//pagination
 app.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int
@@ -125,6 +120,10 @@ app.controller('PageCtrl', function ($scope, $http) {
     selector: "a[data-toggle=tooltip]"
   })
 });
+
+/**
+ * Controls Add News Page
+ */
 app.controller('NewsCtrl',function($scope,$http){
     // function to submit the form after all validation has occurred
     $scope.submitAddNewsForm = function() {
