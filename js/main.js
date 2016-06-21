@@ -7,9 +7,24 @@
  * Main AngularJS Web Application
  */
 var app = angular.module('tutorialWebApp', [
-  'ngRoute','uiSwitch'
+  'ngRoute','uiSwitch','colorpicker.module'
 ]);
 
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
 /**
  * Configure the Routes
  */
@@ -17,7 +32,7 @@ var app = angular.module('tutorialWebApp', [
 app.config(['$routeProvider', function ($routeProvider) {
   $routeProvider
     // Home
-    .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
+    .when("/", {templateUrl: "partials/home.html", controller: "HomeCtrl"})
     // Pages
     .when("/signin", {templateUrl: "partials/user/signin.html", controller: "LoginCtrl"})
     .when("/signup", {templateUrl: "partials/user/signup.html", controller: "RegisterCtrl"})
@@ -29,7 +44,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
     .when("/research", {templateUrl: "partials/research/researchHome.html", controller: "ResearchHomeCtrl"})
     .when("/distribution", {templateUrl: "partials/distribution.html", controller: "MapCtrl"})
-    .when("/sightings", {templateUrl: "partials/sightings.html", controller: "PageCtrl"})
+    .when("/sightings", {templateUrl: "partials/sightings.html", controller: "SightingsCtrl"})
     .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})
     // Blog
     .when("/blog", {templateUrl: "partials/blog.html", controller: "BlogCtrl"})

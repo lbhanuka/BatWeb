@@ -5,41 +5,97 @@ app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
   console.log("Blog Controller reporting for duty.");
 });
 
-
 /**
- * Controls all other Pages
+ * Controls the Home Page
  */
-app.controller('PageCtrl', function ($scope, $http) {
-    console.log("Page Controller reporting for duty.");
+app.controller('HomeCtrl', function ($scope,$http) {
 
-    // Activates the Carousel
-    $('.carousel').carousel({
-        interval: 5000
-    });
-    
-    $scope.showAllNews = function() {
-        $scope.newsposts = [];
-        $scope.currentPage = 0;
-        $scope.pageSize = 3;
-        $http.get("http://localhost:8080/BatMAP_J2EE_API/newsservice/gettennews").then(function (response) {
-            $scope.newsposts = response.data.news;
-        })
-        $scope.numberOfPages=function(){
-            return Math.ceil($scope.newsposts.length/$scope.pageSize);                
+  // pota cntrl reporting for duty
+      $scope.showAllNews = function() {
+          $scope.newsposts = [];
+          $scope.currentPage = 0;
+          $scope.pageSize = 3;
+          $http.get("http://localhost:8080/BatMAP_J2EE_API/newsservice/gettennews").then(function (response) {
+              $scope.newsposts = response.data.news;
+          })
+          $scope.numberOfPages=function(){
+              return Math.ceil($scope.newsposts.length/$scope.pageSize);
+          }
+      };
+
+      $scope.disabled = function() {
+          if($scope.addInviteesDisabled) { return false;}
+      };
+
+      console.log("All news reporting for duty.");
+
+  // pote cntrl iwarai.
+
+  var getAllSpeciesMedium = function() {
+
+      $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/medium").then(function (response) {
+        $scope.allSpeciesMedium = response.data.allspecies;
+        var newArr = [];
+        for (var i=0; i<$scope.allSpeciesMedium.length; i+=3) {
+          newArr.push($scope.allSpeciesMedium.slice(i, i+3));
         }
-    };
-    
-    $scope.disabled = function() {
-        if($scope.addInviteesDisabled) { return false;}
-    };
-    
-    console.log("All news reporting for duty.");
-    // Activates Tooltips for Social Links
-    $('.tooltip-social').tooltip({
-    selector: "a[data-toggle=tooltip]"
-    })
+        $scope.allSpeciesMedium = newArr;
+      });
+  };
+  getAllSpeciesMedium();
+
+  $scope.prepareSpeciesModal = function(species) {
+    $scope.modalTitle = species.species_name;
+    $scope.modalDescription = species.description;
+    $scope.modalImage = species.species_id;
+
+  };
+
+  $scope.uploadFileToUrl = function(file, uploadUrl){
+      var fd = new FormData();
+      fd.append('file', file);
+      $http.post(uploadUrl, fd, {
+          transformRequest: angular.identity,
+          headers: {'Content-Type': undefined}
+      })
+      .success(function(){
+        alert("DONE!");
+      })
+      .error(function(){
+      });
+  }
+
+  $scope.submitSpecies = function() {
+        var new_species = {"species_name":$scope.new_species_name, "description":$scope.new_species_description, "color":$scope.hexPicker.color};
+        var parameter = JSON.stringify(new_species);
+        $http({
+             url: 'http://localhost:8080/BatMAP_J2EE_API/species',
+             method: "POST",
+             headers : {
+                 'Content-Type': 'application/json'
+             },
+             data: new_species
+
+         }).then(function successCallback(response) {
+           alert(JSON.stringify(response.data));
+           var file = $scope.species_image;
+           var uploadUrl = "http://localhost:8080/BatMAP_J2EE_API/species/upload";
+           $scope.uploadFileToUrl(file, uploadUrl);
+           $scope.new_species_name = null;
+           $scope.new_species_description = null;
+           $scope.hexPicker.color = null;
+           $scope.species_image = null;
+           //alert("OK");
+         }, function errorCallback(response) {
+           //alert("Fucked Up!");
+         });
+         //alert(parameter);
+
+  };
+
 });
 
+//pota in application
 app.filter('startFrom', function() {
     return function(input, start) {
         console.log("Filter reporting for duty.");
@@ -48,6 +104,35 @@ app.filter('startFrom', function() {
     }
 });
 
+//pota iwarai.
+
+/**
+ * Controls the Sightings page
+ */
+app.controller('SightingsCtrl', function ($scope, $http) {
+
+  $scope.submitSighting = function() {
+
+  };
+
+});
+
+
+/**
+ * Controls all other Pages
+ */
+app.controller('PageCtrl', function (/* $scope, $location, $http */) {
+  console.log("Page Controller reporting for duty.");
+  // Activates the Carousel
+  $('.carousel').carousel({
+    interval: 5000
+  });
+
+  // Activates Tooltips for Social Links
+  $('.tooltip-social').tooltip({
+    selector: "a[data-toggle=tooltip]"
+  })
+});
 
 /**
  * Controls the Distribution map page
@@ -85,7 +170,6 @@ app.controller('MapCtrl', function ($scope, $http) {
             map: $scope.map,
             icon: createMarkerImg(info.colour_code),
             position: new google.maps.LatLng(info.latitude, info.longitude),
-            title: "info.city"
         });
 
         // InfoWindow content
@@ -185,7 +269,7 @@ app.controller('MapCtrl', function ($scope, $http) {
     getAllSpecies();
     setTimeout(function() {
         ShowAllSightings();
-        $scope.yesNo = true;
+        $scope.showAllMarkers();
     }, 2000);
 
 });
