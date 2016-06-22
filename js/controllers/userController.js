@@ -223,7 +223,33 @@ app.controller('ResearcherCtrl',function ($rootScope,$scope,$http,$window) {
     }else if(usr.user_type=="researcher"){
         window.location.href = "index.html#/researcher";
     }
+    
+    $scope.submitNewResearch = function () {
+        var parameter = JSON.stringify({"resTitle": $scope.resTitle,
+            "resDescription":$scope.resDescription,
+            "userEmail":usr.email
+        });
+        $http({
+            url: $rootScope.apiHostUrl+'researchservice/addnew',
+            method: "POST",
+            data: parameter
 
+        }).then(function successCallback(response) {
+            if(response.data.addRes == true ){
+                alert("Research added");
+            }else {
+                alert("error");
+            }
+            // alert(JSON.stringify(response.data));
+            // var file = $scope.researchFile;
+            // var uploadUrl = $rootScope.apiHostUrl+'researchservice/uploadres';
+            // $scope.uploadFileToUrl(file, uploadUrl);
+        }, function errorCallback(response) {
+            alert("Connection error");
+        });
+
+    };
+    
 });
 
 /**
