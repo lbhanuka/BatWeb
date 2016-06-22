@@ -9,27 +9,18 @@ app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
  * Controls the Home Page
  */
 app.controller('HomeCtrl', function ($scope,$http) {
-
-  // pota cntrl reporting for duty
-      $scope.showAllNews = function() {
+      $scope.showFifteenNews = function() {
           $scope.newsposts = [];
           $scope.currentPage = 0;
           $scope.pageSize = 3;
-          $http.get("http://localhost:8080/BatMAP_J2EE_API/newsservice/gettennews").then(function (response) {
+          $http.get("http://localhost:8080/BatMAP_J2EE_API/newsservice/getfifteennews").then(function (response) {
               $scope.newsposts = response.data.news;
           })
           $scope.numberOfPages=function(){
               return Math.ceil($scope.newsposts.length/$scope.pageSize);
           }
       };
-
-      $scope.disabled = function() {
-          if($scope.addInviteesDisabled) { return false;}
-      };
-
       console.log("All news reporting for duty.");
-
-  // pote cntrl iwarai.
 
   var getAllSpeciesMedium = function() {
 
@@ -94,17 +85,13 @@ app.controller('HomeCtrl', function ($scope,$http) {
   };
 
 });
-
-//pota in application
+//pagination
 app.filter('startFrom', function() {
     return function(input, start) {
-        console.log("Filter reporting for duty.");
         start = +start; //parse to int
         return input.slice(start);
     }
 });
-
-//pota iwarai.
 
 /**
  * Controls the Sightings page
@@ -121,8 +108,8 @@ app.controller('SightingsCtrl', function ($scope, $http) {
 /**
  * Controls all other Pages
  */
-app.controller('PageCtrl', function (/* $scope, $location, $http */) {
-  console.log("Page Controller reporting for duty.");
+app.controller('PageCtrl', function ($scope, $http) {
+    console.log("Page Controller reporting for duty.");
   // Activates the Carousel
   $('.carousel').carousel({
     interval: 5000
@@ -132,6 +119,38 @@ app.controller('PageCtrl', function (/* $scope, $location, $http */) {
   $('.tooltip-social').tooltip({
     selector: "a[data-toggle=tooltip]"
   })
+});
+
+/**
+ * Controls Add News Page
+ */
+app.controller('NewsCtrl',function($scope,$http){
+    // function to submit the form after all validation has occurred
+    $scope.submitAddNewsForm = function() {
+
+        // check to make sure the form is completely valid
+        if ($scope.addNewsForm.$valid) {
+            var parameter = JSON.stringify({"user_id": $scope.user_id,
+                "header":$scope.header,
+                "content":$scope.content
+            });
+            $http({
+                url:"http://localhost:8080/BatMAP_J2EE_API/newsservice/addnews",
+                method: "POST",
+                data: parameter
+            }).then(function successCallback(response) {
+                if(response.data.newsadded == true){
+                    alert("News added successfully");
+                }else if(response.data.newsadded == false){
+                    alert("Failed adding news");
+                }
+            },function errorCallback(response) {
+                alert("Error occurred");
+            });
+        }
+
+    };
+
 });
 
 /**
