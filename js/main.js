@@ -10,6 +10,22 @@ var app = angular.module('tutorialWebApp', [
   'ngRoute','uiSwitch','colorpicker.module'
 ]);
 
+app.directive('fileModel', ['$parse', function ($parse) {
+      return {
+              restrict: 'A',
+              link: function(scope, element, attrs) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+    
+                    element.bind('change', function(){
+                          scope.$apply(function(){
+                                modelSetter(scope, element[0].files[0]);
+                            });
+                      });
+            }
+      };
+  }]);
+
 /**
  * Configure the Routes
  */
@@ -29,6 +45,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
     .when("/news", {templateUrl: "partials/news.html", controller: "NewsCtrl"})
     .when("/research", {templateUrl: "partials/research/researchHome.html", controller: "ResearchHomeCtrl"})
+    .when("/research/:research_id", {templateUrl: "partials/research/research.html", controller: "ResearchCtrl"})
     .when("/distribution", {templateUrl: "partials/distribution.html", controller: "MapCtrl"})
     .when("/sightings", {templateUrl: "partials/sightings.html", controller: "SightingsCtrl"})
     .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})

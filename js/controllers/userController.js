@@ -223,6 +223,20 @@ app.controller('ResearcherCtrl',function ($rootScope,$scope,$http,$window) {
     }else if(usr.user_type=="researcher"){
         window.location.href = "index.html#/researcher";
     }
+
+    $scope.uploadFileToUrl = function(file, uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+            .success(function(){
+                alert("DONE!");
+            })
+            .error(function(){
+            });
+    };
     
     $scope.submitNewResearch = function () {
         var parameter = JSON.stringify({"resTitle": $scope.resTitle,
@@ -241,9 +255,9 @@ app.controller('ResearcherCtrl',function ($rootScope,$scope,$http,$window) {
                 alert("error");
             }
             // alert(JSON.stringify(response.data));
-            // var file = $scope.researchFile;
-            // var uploadUrl = $rootScope.apiHostUrl+'researchservice/uploadres';
-            // $scope.uploadFileToUrl(file, uploadUrl);
+            var file = $scope.researchFile;
+            var uploadUrl = $rootScope.apiHostUrl+'researchservice/addnewupload';
+            $scope.uploadFileToUrl(file, uploadUrl);
         }, function errorCallback(response) {
             alert("Connection error");
         });
