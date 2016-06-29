@@ -11,13 +11,13 @@
 
         <!-- Author -->
         <p class="lead">
-            by <a href="">{{user_email}}</a>
+            by <a href="">{{res_user_email}}</a>
         </p>
 
         <hr>
 
         <!-- Date/Time -->
-        <p><span class="glyphicon glyphicon-time"></span> Posted on {{created_date}} at {{created_time}}</p>
+        <p><span class="glyphicon glyphicon-time"></span> Posted on {{res_created_date}} at {{res_created_time}}</p>
         <hr>
 
         <!-- Preview Image -->
@@ -31,35 +31,38 @@
 
         <div class="well">
             <h4>Leave a Comment:</h4>
-            <form role="form">
+            <form role="form" ng-submit="addComment()" novalidate>
                 <div class="form-group">
-                    <textarea class="form-control" rows="3"></textarea>
+                    <textarea name="comm_content" ng-model="comm_content" class="form-control" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
         <!-- Comment -->
-        <div class="media">
+        <div class="media" ng-repeat="comment in commentsList">
             <a class="pull-left" href="#">
                 <img class="media-object" src="http://placehold.it/64x64" alt="">
             </a>
             <div class="media-body">
-                <h4 class="media-heading">Start Bootstrap
+                <h4 class="media-heading">{{comment.user_email}}
                     <small>August 25, 2014 at 9:30 PM</small>
                 </h4>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <p>{{comment.com_content}}</p>
                 <!-- Nested Comment -->
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Nested Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
-                        </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <div ng-repeat="reply in comment.comment_id.repliesList" ng-init="getRepliesByComment(comment.comment_id)">
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" src="http://placehold.it/64x64" alt="">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{reply.rep_user_email}}
+                                <small>August 25, 2014 at 9:30 PM</small>
+                            </h4>
+                            <p>{{reply.rep_content}}</p>
+                        </div>
                     </div>
                 </div>
+
                 <!-- End Nested Comment -->
             </div>
         </div>
