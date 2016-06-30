@@ -69,29 +69,6 @@ app.controller("ResearchCtrl",function ($routeParams,$rootScope,$scope,$http,$wi
         });
     });
 
-    //getting reply data
-    var repliesList = [];
-    $scope.getRepliesByComment = function (comment_id) {
-        console.log(comment_id);
-        $http({
-            url:$rootScope.apiHostUrl+"researchservice/research/"+$routeParams.research_id+"/"+comment_id+"/replies",
-            method: "GET"
-        }).then(function successCallback(response) {
-            if(response.data.flag == true){
-                comment_id.repliesList = response.data.repliesList;
-            }else if(response.data.flag == false){
-                $scope.norepliesfound = "No replies found.";
-            }
-        },function errorCallback(response) {
-            swal({
-                title: "Error in connection",
-                type: "error",
-                timer: 3000
-            });
-        });
-    };
-    //end - getting replies
-
     $scope.addComment = function () {
         var usr = JSON.parse($window.sessionStorage.getItem("usr"));
         if(usr!=null){
@@ -121,6 +98,25 @@ app.controller("ResearchCtrl",function ($routeParams,$rootScope,$scope,$http,$wi
             alert("Please login");
         }
 
-    }
+    };
+
+    //getting reply data
+    // $http({
+    //     url:$rootScope.apiHostUrl+"researchservice/research/"+$routeParams.research_id+"/replies",
+    //     method: "GET"
+    // }).then(function successCallback(response) {
+    //     if(response.data.flag == true){
+    //         // alert(JSON.stringify(response.data.repliesList));
+    //     }else if(response.data.flag == false){
+    //         $scope.norepliesfound = "No replies found.";
+    //     }
+    // },function errorCallback(response) {
+    //     swal({
+    //         title: "Error in connection",
+    //         type: "error",
+    //         timer: 3000
+    //     });
+    // });
+    //end - getting replies
 
 });

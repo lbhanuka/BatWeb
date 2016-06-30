@@ -21,7 +21,7 @@
         <hr>
 
         <!-- Preview Image -->
-        <!--<img class="img-responsive" src="http://placehold.it/900x300" alt="">-->
+        <!--<res_img class="res_img-responsive" src="http://placehold.it/900x300" alt="">-->
 
         <!--<hr>-->
 
@@ -45,32 +45,33 @@
             </a>
             <div class="media-body">
                 <h4 class="media-heading">{{comment.user_email}}
-                    <small>August 25, 2014 at 9:30 PM</small>
+                    <small>{{comment.created_date}} at {{comment.created_time}}</small>
                 </h4>
                 <p>{{comment.com_content}}</p>
                 <!-- Nested Comment -->
-                <div ng-repeat="reply in comment.comment_id.repliesList" ng-init="getRepliesByComment(comment.comment_id)">
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object" src="http://placehold.it/64x64" alt="">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="media-heading">{{reply.rep_user_email}}
-                                <small>August 25, 2014 at 9:30 PM</small>
-                            </h4>
-                            <p>{{reply.rep_content}}</p>
-                        </div>
-                    </div>
-                </div>
+                <!--<div>-->
+                    <!--<div class="media">-->
+                        <!--<a class="pull-left" href="#">-->
+                            <!--<res_img class="media-object" src="http://placehold.it/64x64" alt="">-->
+                        <!--</a>-->
+                        <!--<div class="media-body">-->
+                            <!--<h4 class="media-heading">-->
+                                <!--<small>August 25, 2014 at 9:30 PM</small>-->
+                            <!--</h4>-->
+                            <!--<p></p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
                 <!-- End Nested Comment -->
             </div>
         </div>
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-2">
         <br>
-        <img src="http://placehold.it/250x250">
-        <a href="" class="btn btn-lg btn-primary">Download Research Paper</a>
+        <img src="img/pdf.png" style="width: 200px">
+        <br>
+        <a href="" class="btn btn-xs btn-primary" style="margin-left: 20px;margin-top: 10px">Download Research Paper</a>
     </div>
 
 </div>
