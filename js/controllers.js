@@ -8,81 +8,84 @@ app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
 /**
  * Controls the Home Page
  */
-app.controller('HomeCtrl', function ($scope,$http) {
+app.controller('HomeCtrl', function ($scope,$http,$rootScope) {
       $scope.showFifteenNews = function() {
           $scope.newsposts = [];
           $scope.currentPage = 0;
           $scope.pageSize = 3;
-          $http.get("http://localhost:8080/BatMAP_J2EE_API/newsservice/getfifteennews").then(function (response) {
+          $http.get($rootScope.apiHostUrl+"newsservice/getfifteennews").then(function (response) {
               $scope.newsposts = response.data.news;
-          })
+          });
           $scope.numberOfPages=function(){
               return Math.ceil($scope.newsposts.length/$scope.pageSize);
           }
       };
       console.log("All news reporting for duty.");
 
-  var getAllSpeciesMedium = function() {
 
-      $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/medium").then(function (response) {
-        $scope.allSpeciesMedium = response.data.allspecies;
-        var newArr = [];
-        for (var i=0; i<$scope.allSpeciesMedium.length; i+=3) {
-          newArr.push($scope.allSpeciesMedium.slice(i, i+3));
-        }
-        $scope.allSpeciesMedium = newArr;
-      });
-  };
-  getAllSpeciesMedium();
+    //
+    var getAllSpeciesMedium = function() {
 
-  $scope.prepareSpeciesModal = function(species) {
-    $scope.modalTitle = species.species_name;
-    $scope.modalDescription = species.description;
-    $scope.modalImage = species.species_id;
+        $http.get($rootScope.apiHostUrl+"species/getall/medium").then(function (response) {
+            $scope.allSpeciesMedium = response.data.allspecies;
+            var newArr = [];
+            for (var i=0; i<$scope.allSpeciesMedium.length; i+=3) {
+                newArr.push($scope.allSpeciesMedium.slice(i, i+3));
+            }
+            $scope.allSpeciesMedium = newArr;
+        });
+    };
+    getAllSpeciesMedium();
 
-  };
+    $scope.prepareSpeciesModal = function(species) {
+        $scope.modalTitle = species.species_name;
+        $scope.modalDescription = species.description;
+        $scope.modalImage = species.species_id;
 
-  $scope.uploadFileToUrl = function(file, uploadUrl){
-      var fd = new FormData();
-      fd.append('file', file);
-      $http.post(uploadUrl, fd, {
-          transformRequest: angular.identity,
-          headers: {'Content-Type': undefined}
-      })
-      .success(function(){
-        alert("DONE!");
-      })
-      .error(function(){
-      });
-  }
+    };
 
-  $scope.submitSpecies = function() {
+    $scope.uploadFileToUrl = function(file, uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+            .success(function(){
+                alert("DONE!");
+            })
+            .error(function(){
+            });
+    };
+
+    $scope.submitSpecies = function() {
         var new_species = {"species_name":$scope.new_species_name, "description":$scope.new_species_description, "color":$scope.hexPicker.color};
         var parameter = JSON.stringify(new_species);
         $http({
-             url: 'http://localhost:8080/BatMAP_J2EE_API/species',
-             method: "POST",
-             headers : {
-                 'Content-Type': 'application/json'
-             },
-             data: new_species
+            url: $rootScope.apiHostUrl+'species',
+            method: "POST",
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            data: new_species
 
-         }).then(function successCallback(response) {
-           alert(JSON.stringify(response.data));
-           var file = $scope.species_image;
-           var uploadUrl = "http://localhost:8080/BatMAP_J2EE_API/species/upload";
-           $scope.uploadFileToUrl(file, uploadUrl);
-           $scope.new_species_name = null;
-           $scope.new_species_description = null;
-           $scope.hexPicker.color = null;
-           $scope.species_image = null;
-           //alert("OK");
-         }, function errorCallback(response) {
-           //alert("Fucked Up!");
-         });
-         //alert(parameter);
+        }).then(function successCallback(response) {
+            alert(JSON.stringify(response.data));
+            var file = $scope.species_image;
+            var uploadUrl = $rootScope.apiHostUrl+"species/upload";
+            $scope.uploadFileToUrl(file, uploadUrl);
+            $scope.new_species_name = null;
+            $scope.new_species_description = null;
+            $scope.hexPicker.color = null;
+            $scope.species_image = null;
+            //alert("OK");
+        }, function errorCallback(response) {
+            //alert("Fucked Up!");
+        });
+        //alert(parameter);
 
-  };
+    };
+    //
 
 });
 //pagination
@@ -124,29 +127,46 @@ app.controller('PageCtrl', function ($scope, $http) {
 /**
  * Controls Add News Page
  */
-app.controller('NewsCtrl',function($scope,$http){
+app.controller('NewsCtrl',function($window,$scope,$http,$rootScope,$route){
     // function to submit the form after all validation has occurred
     $scope.submitAddNewsForm = function() {
 
         // check to make sure the form is completely valid
         if ($scope.addNewsForm.$valid) {
-            var parameter = JSON.stringify({"user_id": $scope.user_id,
+            var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+            var parameter = JSON.stringify({"user_id": usr.user_id,
                 "header":$scope.header,
                 "content":$scope.content
             });
             $http({
-                url:"http://localhost:8080/BatMAP_J2EE_API/newsservice/addnews",
+                url:$rootScope.apiHostUrl+"newsservice/addnews",
                 method: "POST",
                 data: parameter
             }).then(function successCallback(response) {
                 if(response.data.newsadded == true){
-                    alert("News added successfully");
+                    swal({
+                        title: "News Added Successfully",
+                        type: "success",
+                        timer: 3000
+                    });
+                    $route.reload();
                 }else if(response.data.newsadded == false){
-                    alert("Failed adding news");
+                    swal({
+                        title: "Error Adding News",
+                        text: "Internal Error Occoured",
+                        type: "error",
+                        timer: 3000
+                    });
                 }
             },function errorCallback(response) {
-                alert("Error occurred");
+                swal({
+                    title: "Network Error",
+                    text: "Please Check Your Connection",
+                    type: "error",
+                    timer: 3000
+                });
             });
+
         }
 
     };
@@ -156,7 +176,7 @@ app.controller('NewsCtrl',function($scope,$http){
 /**
  * Controls the Distribution map page
  */
-app.controller('MapCtrl', function ($scope, $http) {
+app.controller('MapCtrl', function ($scope, $http,$rootScope) {
 
 
     var mapOptions = {
@@ -225,7 +245,7 @@ app.controller('MapCtrl', function ($scope, $http) {
 
     var ShowAllSightings = function() {
 
-        $http.get("http://localhost:8080/BatMAP_J2EE_API/sightingservice/getall").then(function (response) {
+        $http.get($rootScope.apiHostUrl+"sightingservice/getall").then(function (response) {
         $scope.allsightings = response.data.allsightings;
 
         angular.forEach($scope.allsightings, function(value, key) {
@@ -237,7 +257,7 @@ app.controller('MapCtrl', function ($scope, $http) {
 
     var getAllSpecies = function() {
 
-        $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/less").then(function (response) {
+        $http.get($rootScope.apiHostUrl+"species/getall/less").then(function (response) {
         $scope.allspecies = response.data.allspecies;
         angular.forEach($scope.allspecies, function(value, key) {
           $scope.markers[value.species_id] = [];

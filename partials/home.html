@@ -144,7 +144,7 @@
                 <div class="media" style="padding-bottom: 15px;">
                     <div class="pull-left">
                         <span class="fa-stack fa-2x">
-                              <img class="img-responsive img-rounded" ng-src="http://localhost:8080/BatMAP_J2EE_API/species/getimage/{{species.species_id}}">
+                              <img class="img-responsive img-rounded" src="img/species/{{species.species_id}}.jpg">
                         </span>
                     </div>
                     <div class="media-body">
@@ -173,7 +173,7 @@
       </div>
       <div class="modal-body">
         <div class="pull-right" style="padding-left:10px; padding-bottom:10px">
-          <img class="img-responsive img-rounded pull-right" style="width:304px;height:210px;" ng-src="http://localhost:8080/BatMAP_J2EE_API/species/getimage/{{modalImage}}">
+          <img class="img-responsive img-rounded pull-right" style="width:304px;height:210px;" src="img/species/{{modalImage}}.jpg">
         </div>
         <p class="text-justify">{{modalDescription}}</p>
       </div>

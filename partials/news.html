@@ -23,12 +23,12 @@
                     <!-- form -->
 
                     <form name="addNewsForm" ng-submit="submitAddNewsForm()" novalidate>
-                        <!-- user id-->
-                        <div class="form-group" ng-class="{ 'has-error' : addNewsForm.user_id.$invalid && !addNewsForm.user_id.$pristine }">
-                            <label>User ID</label>
-                            <input type="text" name="user_id" class="form-control" ng-model="user_id" required>
-                            <p ng-show="addNewsForm.user_id.$invalid && !addNewsForm.user_id.$pristine" class="help-block">User ID is required.</p>
-                        </div>
+                        <!--&lt;!&ndash; user id&ndash;&gt;-->
+                        <!--<div class="form-group" ng-class="{ 'has-error' : addNewsForm.user_id.$invalid && !addNewsForm.user_id.$pristine }">-->
+                            <!--<label>User ID</label>-->
+                            <!--<input type="text" name="user_id" class="form-control" ng-model="user_id" required>-->
+                            <!--<p ng-show="addNewsForm.user_id.$invalid && !addNewsForm.user_id.$pristine" class="help-block">User ID is required.</p>-->
+                        <!--</div>-->
 
                         <!-- header -->
                         <div class="form-group" ng-class="{ 'has-error' : addNewsForm.header.$invalid && !addNewsForm.header.$pristine }">
