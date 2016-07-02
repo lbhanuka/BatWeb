@@ -8,7 +8,6 @@
             <h1 class="page-header">Sightings
                 <small>Report and view bat sightings in Sri Lanka</small>
             </h1>
-			
             <ol class="breadcrumb">
                 <li><a href="../index.html">Home</a>
                 </li>
@@ -48,8 +47,8 @@
        
 			  
 			  
-				<div class="col-md-4">
-                  <a class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#addSightingModal">Report a Sighting</a>
+              <div id="reportNewSightingBtn" class="col-md-4">
+                  <a class="btn btn-lg btn-primary btn-block" ng-click="peaseSignIn()">Report a Sighting</a>
               </div>
           </div>
       </div>
@@ -58,11 +57,18 @@
     </div>
     <!-- /.row -->
 
-    <!-- Service Paragraphs -->
+    <!-- Add sighting modal side menu for map -->
 
     <div class="row">
-
-
+          <div pageslide ps-open="checked" ps-size="600px" ps-container="addSightingModalBody">
+              <div style="padding:20px" id="demo-right">
+                <div id="map1"></div>
+                <div class="pull-right" style="padding-top: 7px">
+                  <button class = "btn btn-primary btn-md" ng-click = "setLocation()">Done</button>
+                  <a ng-click="toggle()" class="btn btn-warning btn-md" >Cancel</a>
+                </div>
+              </div>
+          </div>
     </div>
     <!-- /.row -->
 
@@ -74,21 +80,23 @@
   <div class="modal-dialog">
 
     <!-- Modal content-->
-    <div class="modal-content">
+    <div class="modal-content" id="addSightingModalBody">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title"><strong>Report New Sighting</strong></h4>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal">
+        <form class="form-horizontal" name="newSightingForm" novalidate>
         <fieldset>
 
         <!-- Text input-->
         <div class="form-group">
           <label class="col-md-4 control-label" for="sightingDate">Date of the Sighting</label>
           <div class="col-md-4">
-          <input id="sightingDate" name="sightingDate" type="text" placeholder="DD/MM/YYYY" class="form-control input-md" required="">
-
+          <datepicker date-format="yyyy-MM-dd" date-set="{{date | date:'yyyy-MM-dd'}}" date-max-limit="{{date | date:'yyyy-MM-dd'}}">
+          <input id="sightingDate" name="sightingDate" ng-model="newSighting.date" type="text" placeholder="YYYY/MM/DD" class="form-control input-md" style="cursor: pointer;" readonly="readonly" required>
+          <p ng-show="newSightingForm.sightingDate.$invalid && newSightingForm.sightingDate.$touched" style="color: #ff3333; font-size:12px;">A date is required.</p>
+          </datepicker>
           </div>
         </div>
 
@@ -97,20 +105,21 @@
           <label class="col-md-4 control-label" for="sightingTime">What time of the day</label>
           <div class="col-md-4">
             <div class="input-group">
-              <input id="sightingTime" name="sightingTime" class="form-control" placeholder="" type="text" required="">
+              <input id="sightingTime" name="sightingTime" class="form-control" ng-model="newSighting.time" type="text" style="cursor: pointer;" readonly="readonly" required>
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   Select
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right">
-                  <li><a>MorningD (4.00 AM  - 7:00 AM)</a></li>
-                  <li><a>Day Time (8.00 AM  - 5:00 PM)</a></li>
-                  <li><a>Evening (5:00 PM - 7:00 PM)</a></li>
-                  <li><a>Night Time (7:00 PM - 4:00 AM)</a></li>
+                  <li><a ng-click="newSighting.time= 'Morning'" >Morning (4.00 AM  - 7:00 AM)</a></li>
+                  <li><a ng-click="newSighting.time = 'Day Time'" >Day Time (8.00 AM  - 5:00 PM)</a></li>
+                  <li><a ng-click="newSighting.time = 'Evening'" >Evening (5:00 PM - 7:00 PM)</a></li>
+                  <li><a ng-click="newSighting.time = 'Night Time'" >Night Time (7:00 PM - 4:00 AM)</a></li>
                 </ul>
               </div>
             </div>
+            <p ng-show="newSightingForm.sightingTime.$invalid && newSightingForm.sightingTime.$touched" style="color: #ff3333; font-size:12px;">A time is required.</p>
           </div>
         </div>
 
@@ -119,20 +128,21 @@
           <label class="col-md-4 control-label" for="sightingCount">How many Bats were there</label>
           <div class="col-md-4">
             <div class="input-group">
-              <input id="sightingCount" name="sightingCount" class="form-control" placeholder="" type="text" required="">
+              <input id="sightingCount" name="sightingCount" class="form-control" ng-model="newSighting.count" type="text" style="cursor: pointer;" readonly="readonly" required>
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   Select
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right">
-                  <li><a>1 - 5</a></li>
-                  <li><a>6 - 30</a></li>
-                  <li><a>31 - 100</a></li>
-                  <li><a>More than 100</a></li>
+                  <li><a ng-click="newSighting.count = '1 - 5'" >1 - 5</a></li>
+                  <li><a ng-click="newSighting.count = '6 - 30'" >6 - 30</a></li>
+                  <li><a ng-click="newSighting.count = '31 - 100'" >31 - 100</a></li>
+                  <li><a ng-click="newSighting.count = 'More than 100'" >More than 100</a></li>
                 </ul>
               </div>
             </div>
+            <p ng-show="newSightingForm.sightingCount.$invalid && newSightingForm.sightingCount.$touched" style="color: #ff3333; font-size:12px;">Please choose from the given values.</p>
           </div>
         </div>
 
@@ -140,7 +150,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="sightignLocation">Location</label>
           <div class="col-md-4">
-            <button id="sightignLocation" name="sightignLocation" class="btn btn-info">Locate in the map</button>
+            <button type="button" id="sightignLocation" name="sightignLocation" class="btn btn-info" ng-click="toggle(); showMap();">Locate in the map</button>
           </div>
         </div>
 
@@ -149,21 +159,43 @@
           <label class="col-md-4 control-label" for="speciesBehavior">Behavior of the bat</label>
           <div class="col-md-4">
             <div class="input-group">
-              <input id="speciesBehavior" name="speciesBehavior" class="form-control" placeholder="" type="text" required="">
+              <input id="speciesBehavior" name="speciesBehavior" class="form-control" ng-model="newSighting.where" type="text" style="cursor: pointer;" readonly="readonly" required>
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   Select
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right">
-                  <li><a>In a tree</a></li>
-                  <li><a>In a house/building</a></li>
-                  <li><a>Flying around</a></li>
-                  <li><a>On ground</a></li>
-                  <li><a>In a cave (describe in the comments)</a></li>
+                  <li><a ng-click="newSighting.where = 'In a tree'" >In a tree</a></li>
+                  <li><a ng-click="newSighting.where = 'In a house/building'" >In a house/building</a></li>
+                  <li><a ng-click="newSighting.where = 'Flying around'" >Flying around</a></li>
+                  <li><a ng-click="newSighting.where = 'On ground'" >On ground</a></li>
+                  <li><a ng-click="newSighting.where = 'In a cave'" >In a cave (describe in the comments)</a></li>
+                  <li><a ng-click="newSighting.where = 'Other'" >Other (describe in the comments)</a></li>
                 </ul>
               </div>
             </div>
+            <p ng-show="newSightingForm.speciesBehavior.$invalid && newSightingForm.speciesBehavior.$touched" style="color: #ff3333; font-size:12px;">Please choose from the given values.</p>
+          </div>
+        </div>
+
+        <!-- Species Button Drop Down -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="speciesBehavior">Species</label>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input id="species" name="species" class="form-control" ng-model="newSighting.species" type="text" style="cursor: pointer;" readonly="readonly" required>
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  Select
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right">
+                  <li><a ng-click="newSighting.species = species.species_name" ng-repeat="species in allspecies1">{{species.species_name}}</a></li>
+                </ul>
+              </div>
+            </div>
+            <p ng-show="newSightingForm.species.$invalid && newSightingForm.species.$touched" style="color: #ff3333; font-size:12px;">Please choose from the given values.</p>
           </div>
         </div>
 
@@ -171,7 +203,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="sightingImage">Photos</label>
           <div class="col-md-4">
-            <input id="sightingImage" name="sightingImage" class="input-file" type="file">
+            <input type="file" id="file" name="file" multiple onchange="angular.element(this).scope().getFileDetails(this)" />
           </div>
         </div>
 
@@ -179,7 +211,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="sightingComments">Any comments</label>
           <div class="col-md-7">
-            <textarea class="form-control" id="sightingComments" name="sightingComments"></textarea>
+            <textarea class="form-control" id="sightingComments" name="sightingComments" ng-model="newSighting.comments"></textarea>
           </div>
         </div>
 
@@ -188,53 +220,10 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="submitSighting()">Submit</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="newSightingForm.$invalid || (newSighting.lat==null) || (newSighting.lng==null)" ng-click="submitSighting(newSighting)">Submit</button>
+        <button id="newSightingCancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
 
   </div>
 </div>
-
-
-
-
-
-<div id="helpSighting" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-  
-  <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><strong>Help to upload a sighting</strong></h4>
-      </div>
-      
-
-	  
-	  
-	  
-<div class="modal-body">
-	<p> To report a sighting first click the button <b> "Report a sighting" </b> <br>Then you will get a modal window. In the modal window you have to fill the form about the sighting.</font><br><br> 
-	<font color="green">1. Date of the sighting : </font><font color="blue">Here you will get a calendar when you click the text box. You have to select the correct date on the calendar. Then the date will be displayed in the text box.</font><br><br>
-	<font color="green">2. What time of the day : </font><font color="blue">Here you will get a drop down menu by displaying the time of the day eg: morning, daytime, evening, night. Select the correct time of the day.</font><br><br>
-	<font color="green">3.How many bats were there : </font><font color="blue">Here you will get a drop down menu by displaying a range of numbers.<br><br>
-	<font color="green">4. Location : </font><font color="blue">Here after clicking <b> Locate in the map </b>. button, you will get a Sri Lankan map to select the location. After selecting the location it will be displayed by notifying <b> Located</b></font> <br><br>
-				
-	<font color="green">5. Behaviour of the bat : </font><font color="blue"> Here you will get a drop down menu to select the behaviour eg: flying,etc.</font><br><br>
-	 <font color="green">6. Species : </font><font color="blue"> Here you will get a drop down menu by displaying a list of species.</font><br><br>
-	<font color="green">7. Photos : </font><font color="blue"> Here you have to click the button <b> Choose files </b> Then you have to upload the image by selecting the image.</font><br><br>
-     <font color="green">7. Any Comments : </font><font color="blue"> Here you can write comments on the sighting in the provided text box.</font><br><br>
-	 
-	 <a href="reportSighting1">
-	 
-	 <img src="img/reportSighting1.png" class="img-responsive" >
-	
-	</a>
-
-	  
-	  </div>
-    </div>
-
-  </div>
-</div>
-
