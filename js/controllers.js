@@ -9,7 +9,19 @@ app.controller('BlogCtrl', function (/* $scope, $location, $http */) {
  * Controls the Home Page
  */
 app.controller('HomeCtrl', function ($scope,$http,$window,$rootScope) {
-
+  //news feed
+  $scope.showFifteenNews = function() {
+    $scope.newsposts = [];
+    $scope.currentPage = 0;
+    $scope.pageSize = 3;
+    $http.get($rootScope.apiHostUrl+"newsservice/getfifteennews").then(function (response) {
+        $scope.newsposts = response.data.news;
+    });
+    $scope.numberOfPages=function(){
+        return Math.ceil($scope.newsposts.length/$scope.pageSize);
+    }
+};
+console.log("All news reporting for duty.");
   //function to check weather user is signed in.
   //this will be used to show the add new species button.
   $scope.isSignedin = function () {
@@ -23,27 +35,6 @@ app.controller('HomeCtrl', function ($scope,$http,$window,$rootScope) {
       }
   };
   $scope.isSignedin();
-  // pota cntrl reporting for duty
-      $scope.showAllNews = function() {
-          $scope.newsposts = [];
-          $scope.currentPage = 0;
-          $scope.pageSize = 3;
-          $http.get($rootScope.apiHostUrl+"newsservice/getfifteennews").then(function (response) {
-              $scope.newsposts = response.data.news;
-          });
-          $scope.numberOfPages=function(){
-              return Math.ceil($scope.newsposts.length/$scope.pageSize);
-          }
-      };
-
-      $scope.disabled = function() {
-          if($scope.addInviteesDisabled) { return false;}
-      };
-
-      console.log("All news reporting for duty.");
-
-
-    //
   var getAllSpeciesMedium = function() {
 
       $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/medium").then(function (response) {
@@ -368,7 +359,7 @@ app.controller('NewsCtrl',function($window,$scope,$http,$rootScope,$route){
 /**
  * Controls the Distribution map page
  */
-app.controller('MapCtrl', function ($scope, $http) {
+app.controller('MapCtrl', function ($scope, $http, $rootScope) {
 
 
     var mapOptions = {

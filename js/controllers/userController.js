@@ -2,7 +2,7 @@
  * Created by lahiru on 6/17/2016.
  */
 app.controller("HostUrlCtrl",function ($rootScope) {
-    $rootScope.apiHostUrl = "http://localhost:8080/";
+    $rootScope.apiHostUrl = "http://localhost:8080/BatMAP_J2EE_API/";
 });
 /**
  * login controller
@@ -237,7 +237,7 @@ app.controller('ResearcherCtrl',function ($rootScope,$scope,$http,$window) {
             .error(function(){
             });
     };
-    
+
     $scope.submitNewResearch = function () {
         var parameter = JSON.stringify({"resTitle": $scope.resTitle,
             "resDescription":$scope.resDescription,
@@ -263,7 +263,7 @@ app.controller('ResearcherCtrl',function ($rootScope,$scope,$http,$window) {
         });
 
     };
-    
+
 });
 
 /**
@@ -392,7 +392,7 @@ app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$r
             });
         });
     };
-    
+
     //all accounts
     $scope.getAllAccounts = function () {
         $http({
@@ -412,8 +412,8 @@ app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$r
             });
         });
     };
-    
-    
+
+
     $scope.activateAcc = function (usremail) {
         swal({
             title: "Are you sure?",
