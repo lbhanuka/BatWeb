@@ -6,7 +6,7 @@
             <div class="row" style="padding-top:10px; padding-left:10px; width:435px;">
                 <div>
                   <ol class="breadcrumb" style="">
-                      <li><a href="../index.html">Home</a>
+                      <li><a href="#">Home</a>
                       </li>
                       <li class="active">Distribution</li>
                   </ol>
@@ -22,6 +22,7 @@
                     <div style="float: right; position: absolute; left: 210px; padding-top: 5px;">
                       <button type="button" class="btn btn-primary btn-sm" ng-click="hideAllMarkers()">Hide All</button>
                       <button type="button" class="btn btn-primary btn-sm" ng-click="showAllMarkers()">Show All</button>
+                      <a class="fa fa-question-circle" data-toggle="modal" data-target="#helpDistribution">Help</a>
                     </div>
                   </div>
                   <div class="input-group">
@@ -48,3 +49,36 @@
 
 </div>
 <!-- /.container -->
+
+//help modal
+<div id="helpDistribution" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+  <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><strong>Help to view the distribution of bat species</strong></h4>
+      </div>
+
+
+
+
+
+<div class="modal-body">
+	<p><font color="blue"> Here you can view the distribution of bat species by customizing according to your preference. At the beginning you will see a list of species and you will see the distribution of all species on the Sri Lankan map.<br><br>
+		If you want to filter and see only some of the species, then you can click the <b><font color="black"> Hide all </font></b> button and then turn on the toggle switch button infront of each species. If it is on then you can see it in <b> <font color="black">Green </font> </b> color.<br><br> </font>
+
+	<font color="green"> If you want to get the information of each sighting which are on the map, Then you have to click a particular sighting point on the map. Then you will see the sighting details using a pop up window. eg: date, species, count,etc </font><br><br>
+	</p>
+	 <a href="reportSighting1">
+
+	 <img src="img/distribution1.png" width="860" height="480">
+
+	</a>
+
+
+	  </div>
+    </div>
+
+  </div>
+</div>

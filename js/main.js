@@ -43,6 +43,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/profile", {templateUrl: "partials/user/userprofile.html", controller: "ProfileCtrl"})
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
     .when("/news", {templateUrl: "partials/news.html", controller: "NewsCtrl"})
+    .when("/addSpecies", {templateUrl: "partials/addSpecies.html", controller: "HomeCtrl"})
     .when("/research", {templateUrl: "partials/research/researchHome.html", controller: "ResearchHomeCtrl"})
     .when("/research/:research_id", {templateUrl: "partials/research/research.html", controller: "ResearchCtrl"})
     .when("/distribution", {templateUrl: "partials/distribution.html", controller: "MapCtrl"})

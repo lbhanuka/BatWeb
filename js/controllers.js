@@ -22,19 +22,7 @@ app.controller('HomeCtrl', function ($scope,$http,$window,$rootScope) {
     }
 };
 console.log("All news reporting for duty.");
-  //function to check weather user is signed in.
-  //this will be used to show the add new species button.
-  $scope.isSignedin = function () {
-      if($window.sessionStorage.getItem("usr") == null){
-          return false;
-      }else {
-          var usr = JSON.parse($window.sessionStorage.getItem("usr"));
-          $rootScope.signedinas = usr.email;
-          document.getElementById("batSpecies").innerHTML = ' <h3 class="page-header">Bat Species in Sri Lanka <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#addSpeciesModal">Add</button></h3>';
-          return true;
-      }
-  };
-  $scope.isSignedin();
+
   var getAllSpeciesMedium = function() {
 
       $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/medium").then(function (response) {
