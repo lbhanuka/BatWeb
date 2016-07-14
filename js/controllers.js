@@ -25,7 +25,7 @@ console.log("All news reporting for duty.");
 
   var getAllSpeciesMedium = function() {
 
-      $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/medium").then(function (response) {
+      $http.get("http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/species/getall/medium").then(function (response) {
         $scope.allSpeciesMedium = response.data.allspecies;
         var newArr = [];
         for (var i=0; i<$scope.allSpeciesMedium.length; i+=3) {
@@ -124,7 +124,7 @@ app.controller('SightingsCtrl', function ($rootScope, $scope, $http, $window, $f
   };
   //get all species for add sighting modal
   var getAllSpecies = function() {
-      $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/less").then(function (response) {
+      $http.get("http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/species/getall/less").then(function (response) {
       angular.forEach(response.data.allspecies, function(value, key) {
         $scope.allspecies1.push(value);
       });
@@ -138,7 +138,7 @@ app.controller('SightingsCtrl', function ($rootScope, $scope, $http, $window, $f
   $scope.submitSighting = function(newSighting){
     var parameter = JSON.stringify(newSighting);
         $http({
-             url: 'http://localhost:8080/BatMAP_J2EE_API/sightingservice',
+             url: 'http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/sightingservice',
              method: "POST",
              headers : {
                  'Content-Type': 'application/json'
@@ -187,7 +187,7 @@ app.controller('SightingsCtrl', function ($rootScope, $scope, $http, $window, $f
       for (var i in $scope.files) {
           //data.append("uploadedFile", $scope.files[i]);
           var file =$scope.files[i];
-          var uploadUrl = "http://localhost:8080/BatMAP_J2EE_API/sightingservice/upload";
+          var uploadUrl = "http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/sightingservice/upload";
           $scope.uploadFileToUrl(file, uploadUrl);
       }
       sightingReported();
@@ -385,7 +385,7 @@ app.controller('MapCtrl', function ($scope, $http, $rootScope) {
         // InfoWindow content
         marker.content = '<div id="iw-container">' +
                           '<div class="iw-title">Sighting Details <div style="font-size: 13px; text-align: right; float: right; padding-top: 5px; padding-left: 20px;">by Bhanuka Thirimanne </div></div>' +
-                          '<div class="iw-content">' + '<img src="http://localhost:8080/BatMAP_J2EE_API/sightingservice/getimage/' + info.sighting_id + '" alt="Porcelain Factory of Vista Alegre" height="115" width="83">' +
+                          '<div class="iw-content">' + '<img src="http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/sightingservice/getimage/' + info.sighting_id + '" alt="Porcelain Factory of Vista Alegre" height="115" width="83">' +
                           '<div class="iw-subTitle">' + "Date: " + info.date + '</div>' +
                           '<div class="iw-subTitle">' + "Species: " + info.species_name + '</div>' +
                           '<div class="iw-subTitle">' + "Count: " + info.count + '</div>' +

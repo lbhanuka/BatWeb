@@ -17,12 +17,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Vendor: Bootstrap Stylesheets http://getbootstrap.com -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Our Website CSS Styles -->
     <link rel="stylesheet" href="css/main.css">
+    <!--<link rel="stylesheet" href="css/sb-admin.css">-->
     <link rel="stylesheet" href="css/angular-ui-switch.css"/>
     <link rel="stylesheet" href="css/colorpicker.css"/>
     <link rel="stylesheet" href="css/custom.css">
@@ -41,9 +42,11 @@
 <![endif]-->
 
 <!-- Our Website Content Goes Here -->
-<div ng-include='"templates/header.html"'></div>
-<div ng-view></div>
-<div ng-include='"templates/footer.html"'></div>
+  <div ng-include='"templates/header.html"'></div>
+    <div id="wrapper">
+      <div ng-view></div>
+    </div>
+  <!--<div ng-include='"templates/footer.html"'></div>-->
 
 <!-- Vendor: Javascripts -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
