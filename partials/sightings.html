@@ -18,11 +18,20 @@
           <div class="well">
               <h4>Search Sightings</h4>
               <div class="input-group">
-                  <input type="text" class="form-control">
-                      <span class="input-group-btn">
-                          <button class="btn btn-default" type="button"><i class="fa fa-search"></i>
-                          </button>
-                      </span>
+                  <input type="text" class="form-control" ng-model="searchTerm" ng-change="searchSightings()" ng-Trim="false">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                      {{searchMethode}}
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" style="text-align:right">
+                      <li><a ng-click="searchMethode = 'Reporter'" >Reporter</a></li>
+                      <li><a ng-click="searchMethode = 'Date'" >Date</a></li>
+                      <li><a ng-click="searchMethode = 'Institute'" >Institute</a></li>
+                      <li><a ng-click="searchMethode = 'Bat Count'" >Bat Count</a></li>
+                      <li><a ng-click="searchMethode = 'Species'" >Species</a></li>
+                    </ul>
+                  </div>
               </div>
               <!-- /input-group -->
           </div>
@@ -54,6 +63,37 @@
       </div>
 
       <hr>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-12">
+          <table class="table table-hover" >
+              <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Repoter</th>
+                  <th>Location</th>
+                  <th>Bat Count</th>
+                  <th>Species</th>
+                  <th>More</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="sighting in allsightings | filter: { approval: '!pending' } | filter: { succsess: 'true' }">
+                  <td>{{sighting.date}}</td>
+                  <td>{{sighting.first_name + " " + sighting.last_name}}</td>
+                  <td>Unkown</td>
+                  <td>{{sighting.count}}</td>
+                  <td>{{sighting.species_name}}</td>
+                  <td>
+                    <button class="btn-xs btn btn-info" ng-click="moreInfo(sighting)">Details</button>
+                  </td>
+              </tr>
+              </tbody>
+          </table>
+          <span class="text-info">{{noacc}}</span>
+      </div>
     </div>
     <!-- /.row -->
 
@@ -112,7 +152,7 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right">
-                  <li><a ng-click="newSighting.time= 'Morning'" >Morning (4.00 AM  - 7:00 AM)</a></li>
+                  <li><a ng-click="newSighting.time= 'Morning'" >Morning (4.00 AM  - 8:00 AM)</a></li>
                   <li><a ng-click="newSighting.time = 'Day Time'" >Day Time (8.00 AM  - 5:00 PM)</a></li>
                   <li><a ng-click="newSighting.time = 'Evening'" >Evening (5:00 PM - 7:00 PM)</a></li>
                   <li><a ng-click="newSighting.time = 'Night Time'" >Night Time (7:00 PM - 4:00 AM)</a></li>

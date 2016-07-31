@@ -2,7 +2,7 @@
  * Created by lahiru on 6/17/2016.
  */
 app.controller("HostUrlCtrl",function ($rootScope) {
-    $rootScope.apiHostUrl = "http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/";
+    $rootScope.apiHostUrl = "http://localhost:8080/BatMAP_J2EE_API/";
 });
 /**
  * login controller
@@ -25,7 +25,7 @@ app.controller('LoginCtrl',function($rootScope,$scope,$http,$window){
 
             var parameter = JSON.stringify({"email": $scope.email,"password": $scope.password});
             $http({
-                // url:"http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/userservice/signin",
+                // url:"http://localhost:8080/userservice/signin",
                 url:$rootScope.apiHostUrl+"userservice/signin",
                 method: "POST",
                 data: parameter
@@ -100,6 +100,7 @@ app.controller('SignoutCtrl',function ($rootScope,$scope,$window) {
             closeOnConfirm: false
         }, function(){
             $window.sessionStorage.removeItem('usr');
+            $rootScope.signedinas = null;
             window.location.href = "index.html#/signin";
             swal({
                 title: "Signed out.",

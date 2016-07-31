@@ -1,0 +1,114 @@
+<div class="container col-xs-12">
+    <div class="row">
+
+        <div class="col-xs-12 col-md-8 col-lg-8">
+            <h1 class="page-header">Sightings Manager
+                <!--<small>Department of Zoology, University of Colombo</small>-->
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/BatWeb/index.html">Home</a>
+                </li>
+                <li class="active">Sightings Manager</li>
+            </ol>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4" style="padding-top:50px">
+          <div class="well">
+              <h4>Search Sightings</h4>
+              <div class="input-group">
+                  <input type="text" class="form-control" ng-model="searchTerm" ng-change="searchSightings()" ng-Trim="false">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                      {{searchMethode}}
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" style="text-align:right">
+                      <li><a ng-click="searchMethode = 'Reporter'" >Reporter</a></li>
+                      <li><a ng-click="searchMethode = 'Date'" >Date</a></li>
+                      <li><a ng-click="searchMethode = 'Institute'" >Institute</a></li>
+                      <li><a ng-click="searchMethode = 'Bat Count'" >Bat Count</a></li>
+                      <li><a ng-click="searchMethode = 'Species'" >Species</a></li>
+                    </ul>
+                  </div>
+              </div>
+              <!-- /input-group -->
+          </div>
+          <!-- /well -->
+        </div>
+    </div>
+    <div class="container">
+      <!-- Service Tabs -->
+      <div class="row">
+          <div class="col-lg-12">
+              <ul id="myTab" class="nav nav-tabs nav-justified">
+                  <li class="active"><a show-tab href="#service-one" data-toggle="tab"><i class="fa fa-tree"></i> All Sightings</a>
+                  </li>
+                  <li class=""><a show-tab href="#service-two" data-toggle="tab"><i class="fa fa-car"></i> Pending Sightings</a>
+                  </li>
+              </ul>
+
+              <div id="myTabContent" class="tab-content">
+                  <div class="tab-pane fade active in" id="service-one">
+                    <div class="col-xs-11">
+                        <table class="table table-hover" >
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Repoter</th>
+                                <th>Location</th>
+                                <th>Bat Count</th>
+                                <th>Species</th>
+                                <th>Manage</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="sighting in allsightings | filter: { approval: '!pending' } | filter: { succsess: 'true' }">
+                                <td>{{sighting.date}}</td>
+                                <td>{{sighting.first_name + " " + sighting.last_name}}</td>
+                                <td>Unkown</td>
+                                <td>{{sighting.count}}</td>
+                                <td>{{sighting.species_name}}</td>
+                                <td>
+                                  <button class="btn-xs btn btn-info" ng-click="moreInfo(sighting)">Details</button>
+                                  <button class="btn-xs btn btn-danger" ng-click="removeSighting(sighting.sighting_id)">Remove</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <span class="text-info">{{noacc}}</span>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="service-two">
+                    <div class="col-xs-11">
+                        <table class="table table-hover" >
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Repoter</th>
+                                <th>Location</th>
+                                <th>Bat Count</th>
+                                <th>Species</th>
+                                <th>Manage</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="sighting in allsightings | filter: { approval: '!approved' } | filter: { succsess: 'true' }">
+                                <td>{{sighting.date}}</td>
+                                <td>{{sighting.first_name + " " + sighting.last_name}}</td>
+                                <td>Unkown</td>
+                                <td>{{sighting.count}}</td>
+                                <td>{{sighting.species_name}}</td>
+                                <td>
+                                  <button class="btn-xs btn btn-info" ng-click="moreInfo(sighting)">Details</button>
+                                  <button class="btn-xs btn btn-danger" ng-click="removeSighting(sighting.sighting_id)">Remove</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <span class="text-info">{{noacc}}</span>
+                    </div>                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</div>

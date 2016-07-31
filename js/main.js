@@ -25,6 +25,16 @@ app.directive('fileModel', ['$parse', function ($parse) {
         }
     };
 }]);
+app.directive('showTab', function () {
+    return {
+        link: function (scope, element, attrs) {
+            element.click(function (e) {
+                e.preventDefault();
+                jQuery(element).tab('show');
+            });
+        }
+    };
+});
 /**
  * Configure the Routes
  */
@@ -38,6 +48,12 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/signup", {templateUrl: "partials/user/signup.html", controller: "RegisterCtrl"})
     .when("/signupRequest", {templateUrl: "partials/user/signuprequest.html", controller: "AccountManagerCtrl"})
     .when("/accountsmanager", {templateUrl: "partials/user/accountsmanager.html", controller: "AccountManagerCtrl"})
+    .when("/sightingmanager", {templateUrl: "partials/sightings/sightingsManager.html", controller: "SightingManagerCtrl"})
+    .when("/mysightings", {templateUrl: "partials/sightings/mysightings.html", controller: "MySightingCtrl"})
+    .when("/sightingdetails", {templateUrl: "partials/sightings/sightingView.html", controller: "SightingViewCtrl"})
+    .when("/sightingdetails1", {templateUrl: "partials/sightings/sightingView.html", controller: "SightingViewCtrl"})
+    .when("/usersightingdetails", {templateUrl: "partials/sightings/sightingViewUser.html", controller: "UserSightingViewCtrl"})
+    .when("/usersightingdetails1", {templateUrl: "partials/sightings/sightingViewUser.html", controller: "UserSightingViewCtrl"})
     .when("/researcher", {templateUrl: "partials/user/researcher.html", controller: "ResearcherCtrl"})
     .when("/administrator", {templateUrl: "partials/user/administrator.html", controller: "AdministratorCtrl"})
     .when("/profile", {templateUrl: "partials/user/userprofile.html", controller: "ProfileCtrl"})

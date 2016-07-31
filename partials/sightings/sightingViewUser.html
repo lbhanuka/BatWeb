@@ -1,0 +1,69 @@
+<div class="container col-lg-12">
+
+    <div class="row">
+
+        <div class="col-lg-5">
+            <div class="row" style="padding-top:10px; padding-left:10px; width:435px;">
+                <div>
+                  <ol class="breadcrumb" style="">
+                      <li><a href="#/administrator">Dashboard</a></li>
+                      <li><a href="#/sightingmanager">Sighting Manager</a></li>
+                      <li class="active">Sighting Details</li>
+                  </ol>
+                </div>
+                <h1 class="page-header">Sighting Details
+                    <small></small>
+                </h1>
+                <div class="nicetext well" style="padding-left:20px; background-color:#b29d85;">
+                  Reporter:  {{sighting.first_name + " " + sighting.last_name}}<br>
+                  Institute: {{sighting.institute}}<br>
+                  Date: {{sighting.date}}<br>
+                  Bat Species: {{sighting.species_name}}<br>
+                  Bat Count: {{sighting.count}}<br>
+                  Location: {{sighting.location}}<br>
+                  Time of the Day: {{sighting.time}}<br>
+                </div>
+                <div class="row" style="padding-left:20px;">
+                  <div ng-repeat="imageId in sightingImages">
+                    <div style="float:left; padding-right:5px;"><a data-toggle="modal" data-target="#SightingImagesModal" ng-click="setImage(imageId)"><img class="img-responsive" style="width:50px;height:50px;cursor: pointer;" ng-src="http://localhost:8080/BatMAP_J2EE_API/sightingservice/getimage/{{imageId}}"></a></div>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-7">
+          <div id="map"></div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container -->
+
+
+<!-- sighting Image Modal -->
+<div id="SightingImagesModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body" style="height:500px; overflow-y: auto;">
+        <div style="padding-left:10px; padding-bottom:10px">
+          <div id="previewImage" style="margin: 0 auto;">
+            <img class="img-responsive" style="width: 50%; margin: 0 auto; max-height:400px;" ng-src="http://localhost:8080/BatMAP_J2EE_API/sightingservice/getimage/{{sightingImages[0]}}">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div style="width: 50%; margin: 0 auto;">
+          <div ng-repeat="imageId in sightingImages">
+            <div style="float:left; padding-right:5px;"><a ng-click="setImage(imageId)"><img class="img-responsive" style="width:50px;height:50px;cursor: pointer;" ng-src="http://localhost:8080/BatMAP_J2EE_API/sightingservice/getimage/{{imageId}}"></a></div>
+          </div>
+        </div>
+
+        <button id="closeModal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

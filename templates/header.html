@@ -1,7 +1,6 @@
 <div class="col-lg-12">
     <span ng-controller="HostUrlCtrl"></span>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-image:none">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -13,13 +12,8 @@
             <a class="navbar-brand" href="#/">BATMAP</a>
         </div>
 
-
-
-
-
         <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-right top-nav">
                 <li ng-controller="SignoutCtrl" ng-hide="isSignedin()">
                     <a href="#/signin"><i class="fa fa-fw fa-sign-in"></i> Signin</a>
                 </li>
@@ -32,10 +26,28 @@
                 <li ng-controller="SignoutCtrl" ng-click="signoutFunc()" ng-show="isSignedin()">
                     <a href=""><i class="fa fa-fw fa-sign-out"></i>Sign out</a>
                 </li>
+                <li class="dropdown" ng-controller="NotificationCtrl" ng-show="isSignedin()">
+                    <a ng-click="bellClicked()" class="dropdown-toggle" data-toggle="dropdown"><i id="bell" class="fa fa-bell fa-1x"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu message-dropdown">
+                        <li class="message-preview" ng-repeat="notification in notifications">
+                            <a ng-click="moreInfo(notification)" style="cursor: pointer;" >
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><strong>{{notification.notification_type}}</strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> {{notification.time}}h</p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
-        </div>
         <!-- /.navbar-collapse -->
-    </div>
 
     <!-- /.container -->
 </nav>

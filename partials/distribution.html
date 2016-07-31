@@ -31,6 +31,7 @@
                            <div style="float: left; padding-top: 5px;">
                              {{species.species_name}}
                            </div>
+                           <div style="float:left; padding-top:10px; position: absolute; left: 200px;"><div class="circle" ng-style="{'background-color':species.colour_code}"></div></div>
                            <div style="float: right; position: absolute; left: 220px;">
                              <switch name="yesNo" ng-model="species.show" class="small" ng-click="toggle(species.species_id)"></switch>
                            </div>
@@ -50,34 +51,48 @@
 </div>
 <!-- /.container -->
 
-//help modal
+<!--help modal-->
 <div id="helpDistribution" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
-
-  <div class="modal-content">
+    <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title"><strong>Help to view the distribution of bat species</strong></h4>
       </div>
+      <div class="modal-body">
+	      <p><font color="blue"> Here you can view the distribution of bat species by customizing according to your preference. At the beginning you will see a list of species and you will see the distribution of all species on the Sri Lankan map.<br><br>
+		        If you want to filter and see only some of the species, then you can click the <b><font color="black"> Hide all </font></b> button and then turn on the toggle switch button infront of each species. If it is on then you can see it in <b> <font color="black">Green </font> </b> color.<br><br> </font>
+            <font color="green"> If you want to get the information of each sighting which are on the map, Then you have to click a particular sighting point on the map. Then you will see the sighting details using a pop up window. eg: date, species, count,etc </font><br><br>
+	      </p>
+	      <img src="img/distribution1.png" width="860" height="480">
+	   </div>
+    </div>
 
+  </div>
+</div>
 
+<!-- sighting Image Modal -->
+<div id="SightingImagesModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body" style="height:500px; overflow-y: auto;">
+        <div style="padding-left:10px; padding-bottom:10px">
+          <div id="previewImage" style="margin: 0 auto;">
+            <img class="img-responsive" style="width: 50%; margin: 0 auto; max-height:400px;" ng-src="http://localhost:8080/BatMAP_J2EE_API/sightingservice/getimage/{{sightingImages[0]}}">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div style="width: 50%; margin: 0 auto;">
+          <div ng-repeat="imageId in sightingImages">
+            <div style="float:left; padding-right:5px;"><a ng-click="setImage(imageId)"><img class="img-responsive" style="width:50px;height:50px;" ng-src="http://localhost:8080/BatMAP_J2EE_API/sightingservice/getimage/{{imageId}}"></a></div>
+          </div>
+        </div>
 
-
-<div class="modal-body">
-	<p><font color="blue"> Here you can view the distribution of bat species by customizing according to your preference. At the beginning you will see a list of species and you will see the distribution of all species on the Sri Lankan map.<br><br>
-		If you want to filter and see only some of the species, then you can click the <b><font color="black"> Hide all </font></b> button and then turn on the toggle switch button infront of each species. If it is on then you can see it in <b> <font color="black">Green </font> </b> color.<br><br> </font>
-
-	<font color="green"> If you want to get the information of each sighting which are on the map, Then you have to click a particular sighting point on the map. Then you will see the sighting details using a pop up window. eg: date, species, count,etc </font><br><br>
-	</p>
-	 <a href="reportSighting1">
-
-	 <img src="img/distribution1.png" width="860" height="480">
-
-	</a>
-
-
-	  </div>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
 
   </div>

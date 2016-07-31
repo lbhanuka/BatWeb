@@ -25,7 +25,7 @@ console.log("All news reporting for duty.");
 
   var getAllSpeciesMedium = function() {
 
-      $http.get("http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/species/getall/medium").then(function (response) {
+      $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/medium").then(function (response) {
         $scope.allSpeciesMedium = response.data.allspecies;
         var newArr = [];
         for (var i=0; i<$scope.allSpeciesMedium.length; i+=3) {
@@ -124,12 +124,28 @@ app.controller('SightingsCtrl', function ($rootScope, $scope, $http, $window, $f
   };
   //get all species for add sighting modal
   var getAllSpecies = function() {
-      $http.get("http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/species/getall/less").then(function (response) {
+      $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/less").then(function (response) {
       angular.forEach(response.data.allspecies, function(value, key) {
         $scope.allspecies1.push(value);
       });
       });
   };
+
+
+  $scope.moreInfo = function(sighting) {
+    $rootScope.currentSighting = sighting;
+    $window.location.href = '#/usersightingdetails';
+    //alert(JSON.stringify($rootScope.currentSighting));
+  };
+
+  var GetAllSightings = function() {
+    $http.get($rootScope.apiHostUrl+"sightingservice/getall").then(function (response) {
+      $scope.allsightings = response.data.allsightings;
+      //alert(JSON.stringify($scope.allsightings));
+    });
+  };
+  GetAllSightings();
+
   $scope.allspecies1 = [];
   getAllSpecies();
   $scope.newSighting = {"user":$rootScope.signedinas, "date":null, "time":null, "count":null, "where":null, "species":null, "lat":null, "lng":null, "comments":null};
@@ -138,7 +154,7 @@ app.controller('SightingsCtrl', function ($rootScope, $scope, $http, $window, $f
   $scope.submitSighting = function(newSighting){
     var parameter = JSON.stringify(newSighting);
         $http({
-             url: 'http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/sightingservice',
+             url: 'http://localhost:8080/BatMAP_J2EE_API/sightingservice',
              method: "POST",
              headers : {
                  'Content-Type': 'application/json'
@@ -187,7 +203,7 @@ app.controller('SightingsCtrl', function ($rootScope, $scope, $http, $window, $f
       for (var i in $scope.files) {
           //data.append("uploadedFile", $scope.files[i]);
           var file =$scope.files[i];
-          var uploadUrl = "http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/sightingservice/upload";
+          var uploadUrl = "http://localhost:8080/BatMAP_J2EE_API/sightingservice/upload";
           $scope.uploadFileToUrl(file, uploadUrl);
       }
       sightingReported();
@@ -276,6 +292,57 @@ app.controller('SightingsCtrl', function ($rootScope, $scope, $http, $window, $f
     }
   };
 
+  //sighting search
+  $scope.searchMethode = "Search By";
+  $scope.searchTerm = '';
+  $scope.searchSightings = function() {
+    var searchTermLowercase = $scope.searchTerm.toLowerCase();
+    if ($scope.searchMethode == 'Reporter') {
+      angular.forEach($scope.allsightings, function(value, key) {
+        var fullname = value.first_name.toLowerCase() + " " + value.last_name.toLowerCase();
+        if (fullname.indexOf(searchTermLowercase) == -1) {
+          value.succsess = 'false';
+        }else {
+          value.succsess = 'true';
+        }
+      });
+    }else if ($scope.searchMethode == 'Date') {
+      angular.forEach($scope.allsightings, function(value, key) {
+        if (value.date.indexOf(searchTermLowercase) == -1) {
+          value.succsess = 'false';
+        }else {
+          value.succsess = 'true';
+        }
+      });
+    }else if ($scope.searchMethode == 'Institute') {
+      angular.forEach($scope.allsightings, function(value, key) {
+        if (value.institute.toLowerCase().indexOf(searchTermLowercase) == -1) {
+          value.succsess = 'false';
+        }else {
+          value.succsess = 'true';
+        }
+      });
+    }else if ($scope.searchMethode == 'Bat Count') {
+      angular.forEach($scope.allsightings, function(value, key) {
+        if (!true) {
+          value.succsess = 'false';
+        }else {
+          value.succsess = 'true';
+        }
+      });
+    }else if ($scope.searchMethode == 'Species') {
+      angular.forEach($scope.allsightings, function(value, key) {
+        if (value.species_name.toLowerCase().indexOf(searchTermLowercase) == -1) {
+          //alert("OK");
+          value.succsess = false;
+        }else {
+          //alert("NOTOK");
+          value.succsess = true;
+        }
+      });
+    }
+  };
+
 });
 
 
@@ -347,7 +414,7 @@ app.controller('NewsCtrl',function($window,$scope,$http,$rootScope,$route){
 /**
  * Controls the Distribution map page
  */
-app.controller('MapCtrl', function ($scope, $http, $rootScope) {
+app.controller('MapCtrl', function ($scope, $http, $rootScope, $compile) {
 
 
     var mapOptions = {
@@ -369,7 +436,7 @@ app.controller('MapCtrl', function ($scope, $http, $rootScope) {
         fillOpacity: 1,
         scale: 0.4,
         strokeColor: 'black',
-        strokeWeight: 1
+        strokeWeight: 0
       };
       return markerSVGImg;
     };
@@ -384,8 +451,8 @@ app.controller('MapCtrl', function ($scope, $http, $rootScope) {
 
         // InfoWindow content
         marker.content = '<div id="iw-container">' +
-                          '<div class="iw-title">Sighting Details <div style="font-size: 13px; text-align: right; float: right; padding-top: 5px; padding-left: 20px;">by Bhanuka Thirimanne </div></div>' +
-                          '<div class="iw-content">' + '<img src="http://ec2-52-37-196-128.us-west-2.compute.amazonaws.com:8080/BatMAP_J2EE_API/sightingservice/getimage/' + info.sighting_id + '" alt="Porcelain Factory of Vista Alegre" height="115" width="83">' +
+                          '<div class="iw-title">Sighting Details <div style="font-size: 13px; text-align: right; float: right; padding-top: 5px; padding-left: 20px;">by ' + info.first_name + " " + info.last_name + ' </div></div>' +
+                          '<div class="iw-content">' + '<div style="float:right"><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#SightingImagesModal" ng-click="prepareSightingImagesModal(' + info.sighting_id + ')">Show Images</button></div>' +
                           '<div class="iw-subTitle">' + "Date: " + info.date + '</div>' +
                           '<div class="iw-subTitle">' + "Species: " + info.species_name + '</div>' +
                           '<div class="iw-subTitle">' + "Count: " + info.count + '</div>' +
@@ -393,8 +460,8 @@ app.controller('MapCtrl', function ($scope, $http, $rootScope) {
                           '<div class="iw-subTitle">' + "Location: " + info.location + '</div>' +
                           '</div>' +
                         '</div>';
-
-        var infoWindow = new google.maps.InfoWindow({content: marker.content, maxWidth: 350});
+        var compiled = $compile(marker.content)($scope)
+        var infoWindow = new google.maps.InfoWindow({content: compiled[0], maxWidth: 350});
 
         google.maps.event.addListener(marker, 'click', function(){
           angular.forEach($scope.infoWindows, function(value, key) {
@@ -428,8 +495,9 @@ app.controller('MapCtrl', function ($scope, $http, $rootScope) {
 
     var getAllSpecies = function() {
 
-        $http.get($rootScope.apiHostUrl+"species/getall/less").then(function (response) {
+        $http.get("http://localhost:8080/BatMAP_J2EE_API/species/getall/less").then(function (response) {
         $scope.allspecies = response.data.allspecies;
+        //alert(JSON.stringify($scope.allspecies));
         angular.forEach($scope.allspecies, function(value, key) {
           $scope.markers[value.species_id] = [];
         });
@@ -474,7 +542,22 @@ app.controller('MapCtrl', function ($scope, $http, $rootScope) {
           hideMarkers(species_id);
           this.species.show = false;
         }
-      };
+    };
+
+    $scope.style = function(value) {
+      return { "background-color": value };
+    };
+
+    $scope.prepareSightingImagesModal = function(sighting_id) {
+      $http.get("http://localhost:8080/BatMAP_J2EE_API/sightingservice/getimageids/" + sighting_id).then(function (response) {
+      $scope.sightingImages = response.data.imageIds;
+      //alert(JSON.stringify($scope.sightingImages));
+      });
+    };
+
+    $scope.setImage = function(image_id) {
+      document.getElementById("previewImage").innerHTML = '<img class="img-responsive" style="width: 50%; margin: 0 auto;" src="http://localhost:8080/BatMAP_J2EE_API/sightingservice/getimage/' + image_id + '">';
+    };
 
     getAllSpecies();
     setTimeout(function() {

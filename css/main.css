@@ -7,10 +7,12 @@ For more info and more free Bootstrap 3 HTML themes, visit http://startbootstrap
 */
 
 /* Global Styles */
+html {
+    overflow-y: scroll;
+}
 
 html, body {
     height: 100%;
-	background-color:#D8D8D8;
 }
 
 body {
@@ -137,6 +139,75 @@ body {
     font-style: italic;
 }
 
+/* Top Navigation */
+
+.top-nav {
+    padding: 0 15px;
+}
+
+.top-nav>li {
+    display: inline-block;
+    float: left;
+}
+
+.top-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: #999;
+}
+
+.top-nav>li>a:hover,
+.top-nav>li>a:focus,
+.top-nav>.open>a,
+.top-nav>.open>a:hover,
+.top-nav>.open>a:focus {
+    color: #fff;
+    background-color: #000;
+}
+
+.top-nav>.open>.dropdown-menu {
+    float: left;
+    position: absolute;
+    margin-top: 0;
+    border: 1px solid rgba(0,0,0,.15);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.top-nav>.open>.dropdown-menu>li>a {
+    white-space: normal;
+}
+
+ul.message-dropdown {
+    padding: 0;
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+li.message-preview {
+    width: 275px;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+li.message-preview>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+li.message-footer {
+    margin: 5px 0;
+}
+
+ul.alert-dropdown {
+    width: 200px;
+}
+
+
 /* Side Navigation */
 
 @media(min-width:768px) {
@@ -243,4 +314,24 @@ footer {
 #map1 {
     height:450px;
     width:560px;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+}
+
+.nicetext { color: #7c795d; font-family: 'Source Sans Pro', sans-serif; font-size: 18px; font-weight: 400; line-height: 32px; margin: 0 0 24px; }
+
+@keyframes attention {
+    from {color: white;}
+    to {color: rgba(255,0,0,.85);}
+}
+
+.fa-warn {
+    animation-name: attention;
+    animation-duration: 2s;
+    animation-iteration-count: 100;
 }
