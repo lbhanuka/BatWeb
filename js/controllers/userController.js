@@ -2,7 +2,8 @@
  * Created by lahiru on 6/17/2016.
  */
 app.controller("HostUrlCtrl",function ($rootScope) {
-    $rootScope.apiHostUrl = "http://localhost:8080/BatMAP_J2EE_API/";
+    // $rootScope.apiHostUrl = "http://localhost:8080/BatMAP_J2EE_API/";
+    $rootScope.apiHostUrl = "http://localhost:8080/";
 });
 /**
  * login controller
@@ -233,7 +234,11 @@ app.controller('ResearcherCtrl',function ($rootScope,$scope,$http,$window) {
                 headers: {'Content-Type': undefined}
             })
             .success(function(){
-                alert("DONE!");
+                swal({
+                    title: "File uploaded successfully",
+                    type: "success",
+                    timer: 3000
+                });
             })
             .error(function(){
             });
@@ -374,7 +379,7 @@ app.controller('ProfileCtrl',function ($rootScope,$scope,$http,$window) {
  * Accounts manager controller - admin
  */
 app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$route) {
-    //sign up requests
+    //get sign up requests
     $scope.getRequest = function () {
         $http({
             url:$rootScope.apiHostUrl+"userservice/getpendinglist",
@@ -499,6 +504,43 @@ app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$r
                     timer: 3000
                 });
             });
+        });
+
+    };
+    
+    //searching
+    $scope.searchMethod = "Search By";
+    $scope.searchMethodChange = function (sb) {
+        $scope.searchBy = sb;
+        if(sb == "email"){
+            $scope.searchMethod = "Email";
+        }else if(sb =="first_name"){
+            $scope.searchMethod = "First Name";
+        }else if(sb == "last_name"){
+            $scope.searchMethod = "Last Name";   
+        }else if(sb == "institute"){
+            $scope.searchMethod = "Institute";
+        }
+
+    };
+    $scope.searchUser = function () {
+        $http({
+            url:$rootScope.apiHostUrl+"userservice/search/"+$scope.searchBy+"/"+$scope.searchTerm,
+            method: "GET"
+        }).then(function successCallback(response) {
+            if(response.data.AccountList.length > 0){
+                $scope.searchAcclist = response.data.AccountList;
+                $scope.noSearchAcc = "";
+            }else{
+                $scope.searchAcclist = [];
+                $scope.noSearchAcc = "No accounts found.";
+            }
+        },function errorCallback(response) {
+            // swal({
+            //     title: "Error in connection",
+            //     type: "error",
+            //     timer: 3000
+            // });
         });
 
     };

@@ -1,23 +1,89 @@
 <div class="container col-xs-12">
     <div class="row">
 
-        <div class="col-xs-12">
+        <div class="col-xs-8">
             <h1 class="page-header">Accounts Manager
                 <!--<small>Department of Zoology, University of Colombo</small>-->
             </h1>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="/BatWeb/index.html">Home</a>
-                </li>
-                <li class="active">Accounts Manager</li>
-            </ol>
+            <div>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/BatWeb/index.html">Home</a>
+                    </li>
+                    <li class="active">Accounts Manager</li>
+                </ol>
+            </div>
         </div>
+        <!---->
+        <div class="col-xs-4" style="margin-top: 50px">
+            <div class="well">
+                <h3>Search</h3>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="searchTerm" ng-change="searchUser()" >
+
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            {{searchMethod}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" style="text-align:right">
+                            <li><a ng-click="searchMethodChange('email')" >Email</a></li>
+                            <li><a ng-click="searchMethodChange('first_name')" >First Name</a></li>
+                            <li><a ng-click="searchMethodChange('last_name')" >Last Name</a></li>
+                            <li><a ng-click="searchMethodChange('institute')" >Institute</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- /input-group -->
+            </div>
+            <!-- /well -->
+        </div>
+        <!---->
+
 
     </div>
+    <!-- search -->
+    <div class="container" ng-if="searchTerm">
+        <div class="col-xs-11">
+            <table class="table table-hover" >
+                <h3>Search By {{searchMethod}}</h3>
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>User Type</th>
+                    <th>Account Status</th>
+                    <th>Settings</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="r in searchAcclist">
+                    <td>{{r.email}}</td>
+                    <td>{{r.first_name}}</td>
+                    <td>{{r.last_name}}</td>
+                    <td>{{r.user_type}}</td>
+                    <td>{{r.acc_status}}</td>
+                    <td>
+                        <button class="btn-xs btn btn-info" ng-click="activateAcc(r.email)">Activate</button>
+                        <button class="btn-xs btn btn-danger" ng-click="deactivateAcc(r.email)">Deactivate</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <span class="text-info">{{noSearchAcc}}</span>
+        </div>
+    </div>
+
+    <!-- search end-->
+
+    <!--All acc-->
     <div class="container">
         <div class="col-xs-11">
             <span ng-init="getAllAccounts()"></span>
             <table class="table table-hover" >
+                <h3>All Accounts</h3>
                 <thead>
                 <tr>
                     <th>Email</th>
