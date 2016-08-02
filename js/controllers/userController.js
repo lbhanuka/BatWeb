@@ -510,8 +510,10 @@ app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$r
     
     //searching
     $scope.searchMethod = "Search By";
+    $scope.methodSelectFlag = false;
     $scope.searchMethodChange = function (sb) {
         $scope.searchBy = sb;
+        $scope.methodSelectFlag = true;
         if(sb == "email"){
             $scope.searchMethod = "Email";
         }else if(sb =="first_name"){
@@ -524,6 +526,9 @@ app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$r
 
     };
     $scope.searchUser = function () {
+        if($scope.methodSelectFlag==false){
+            $scope.methodSelectErrMsg = "*Please select the search method."
+        }
         $http({
             url:$rootScope.apiHostUrl+"userservice/search/"+$scope.searchBy+"/"+$scope.searchTerm,
             method: "GET"

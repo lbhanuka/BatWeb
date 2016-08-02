@@ -35,6 +35,9 @@
                         </ul>
                     </div>
                 </div>
+                <div class="col-xs-12" ng-if="methodSelectFlag==false" style="color: red">
+                    {{methodSelectErrMsg}}
+                </div>
                 <!-- /input-group -->
             </div>
             <!-- /well -->
@@ -44,7 +47,7 @@
 
     </div>
     <!-- search -->
-    <div class="container" ng-if="searchTerm">
+    <div class="container" ng-if="searchTerm && methodSelectFlag">
         <div class="col-xs-11">
             <table class="table table-hover" >
                 <h3>Search By {{searchMethod}}</h3>
@@ -53,6 +56,7 @@
                     <th>Email</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Institute</th>
                     <th>User Type</th>
                     <th>Account Status</th>
                     <th>Settings</th>
@@ -63,6 +67,7 @@
                     <td>{{r.email}}</td>
                     <td>{{r.first_name}}</td>
                     <td>{{r.last_name}}</td>
+                    <td>{{r.institute}}</td>
                     <td>{{r.user_type}}</td>
                     <td>{{r.acc_status}}</td>
                     <td>
@@ -89,6 +94,7 @@
                     <th>Email</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Institute</th>
                     <th>User Type</th>
                     <th>Account Status</th>
                     <th>Settings</th>
@@ -99,6 +105,7 @@
                     <td>{{row.email}}</td>
                     <td>{{row.first_name}}</td>
                     <td>{{row.last_name}}</td>
+                    <td>{{row.institute}}</td>
                     <td>{{row.user_type}}</td>
                     <td>{{row.acc_status}}</td>
                     <td>
