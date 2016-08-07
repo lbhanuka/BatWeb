@@ -29,28 +29,39 @@
 
             <p>Department of Zoology<br> University of Colombo</p>
 
-            <form role="form" method="POST" action="#">
+            <form name="contactForm" ng-submit="submitContactForm()" novalidate>
+                <p class="stdErrorMsg small">*Enter your details to contact us.</p>
                 <div class="row">
                     <div class="form-group col-lg-4">
-                        <label for="input1">Name</label>
-                        <input type="text" name="contact_name" class="form-control" id="input1">
+                        <label for="contact_name">Name</label>
+                        <input type="text" name="contact_name" ng-model="contact_name" class="form-control" id="contact_name" required>
+                        <p class="stdErrorMsg" ng-show="contactForm.contact_name.$error.required && contactForm.contact_name.$dirty ">Name is required.</p>
                     </div>
+
                     <div class="form-group col-lg-4">
-                        <label for="input2">Email Address</label>
-                        <input type="email" name="contact_email" class="form-control" id="input2">
+                        <label for="contact_email">Email Address</label>
+                        <input type="email" name="contact_email" ng-model="contact_email" class="form-control" id="contact_email" required>
+                        <p class="stdErrorMsg" ng-show="contactForm.contact_email.$error.email && contactForm.contact_email.$dirty">Enter a valid Email Address.</p>
+                        <p class="stdErrorMsg" ng-show="contactForm.contact_email.$error.required && contactForm.contact_email.$dirty">Email Address is required.</p>
                     </div>
+
                     <div class="form-group col-lg-4">
-                        <label for="input3">Phone Number</label>
-                        <input type="phone" name="contact_phone" class="form-control" id="input3">
+                        <label for="contact_phone">Phone Number</label>
+                        <input type="phone" name="contact_phone" ng-model="contact_phone" class="form-control" id="contact_phone" required maxlength="10" minlength="10" ng-pattern="/^\d{10}$/" />
+                        <p class="stdErrorMsg" ng-show="contactForm.contact_phone.$error.required && contactForm.contact_phone.$dirty ">Phone Number is required.</p>
+                        <p class="stdErrorMsg" ng-show="contactForm.contact_phone.$invalid && contactForm.contact_phone.$dirty ">Enter a valid Phone Number.</p>
                     </div>
-                    <div class="clearfix"></div>
+
                     <div class="form-group col-lg-12">
-                        <label for="input4">Message</label>
-                        <textarea name="contact_message" class="form-control" rows="6" id="input4"></textarea>
+                        <label for="contact_message">Message</label>
+                        <textarea name="contact_message" ng-model="contact_message" class="form-control" rows="6" id="contact_message" required minlength="5"></textarea>
+                        <p class="stdErrorMsg" ng-show="contactForm.contact_message.$error.required && contactForm.contact_message.$dirty ">Message is required.</p>
+                        <p class="stdErrorMsg" ng-show="contactForm.contact_message.$error.minlength && contactForm.contact_message.$dirty ">Message is too short.</p>
                     </div>
+
                     <div class="form-group col-lg-12">
-                        <input type="hidden" name="save" value="contact">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <!--<input type="hidden" name="save" value="contact">-->
+                        <button type="submit" class="btn btn-primary" ng-disabled="contactForm.$invalid || contactForm.$pristine">Submit</button>
                     </div>
                 </div>
             </form>

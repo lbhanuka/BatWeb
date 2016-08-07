@@ -66,7 +66,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/research/:research_id", {templateUrl: "partials/research/research.html", controller: "ResearchCtrl"})
     .when("/distribution", {templateUrl: "partials/distribution.html", controller: "MapCtrl"})
     .when("/sightings", {templateUrl: "partials/sightings.html", controller: "SightingsCtrl"})
-    .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})
+    .when("/contact", {templateUrl: "partials/contact.html", controller: "contactFormCtrl"})
     // Blog
     .when("/blog", {templateUrl: "partials/blog.html", controller: "BlogCtrl"})
     .when("/blog/post", {templateUrl: "partials/blog_item.html", controller: "BlogCtrl"})
