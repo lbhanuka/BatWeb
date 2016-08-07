@@ -55,6 +55,8 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/usersightingdetails", {templateUrl: "partials/sightings/sightingViewUser.html", controller: "UserSightingViewCtrl"})
     .when("/usersightingdetails1", {templateUrl: "partials/sightings/sightingViewUser.html", controller: "UserSightingViewCtrl"})
     .when("/researcher", {templateUrl: "partials/user/researcher.html", controller: "ResearcherCtrl"})
+    .when("/forgotpassword", {templateUrl: "partials/user/forgotpasswordstepone.html", controller: "ForgotPassStepOneCtrl"})
+    .when("/forgotpassword/:email/:token", {templateUrl: "partials/user/forgotpasswordsteptwo.html", controller: "ForgotPassStepTwoCtrl"})
     .when("/administrator", {templateUrl: "partials/user/administrator.html", controller: "AdministratorCtrl"})
     .when("/profile", {templateUrl: "partials/user/userprofile.html", controller: "ProfileCtrl"})
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
