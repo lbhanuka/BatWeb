@@ -63,6 +63,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/news", {templateUrl: "partials/news.html", controller: "NewsCtrl"})
     .when("/addSpecies", {templateUrl: "partials/addSpecies.html", controller: "HomeCtrl"})
     .when("/research", {templateUrl: "partials/research/researchHome.html", controller: "ResearchHomeCtrl"})
+    .when("/addresearch", {templateUrl: "partials/research/addresearch.html", controller: "AddResearchCtrl"})
     .when("/research/:research_id", {templateUrl: "partials/research/research.html", controller: "ResearchCtrl"})
     .when("/distribution", {templateUrl: "partials/distribution.html", controller: "MapCtrl"})
     .when("/sightings", {templateUrl: "partials/sightings.html", controller: "SightingsCtrl"})

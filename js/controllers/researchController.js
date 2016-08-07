@@ -100,23 +100,53 @@ app.controller("ResearchCtrl",function ($routeParams,$rootScope,$scope,$http,$wi
 
     };
 
-    //getting reply data
-    // $http({
-    //     url:$rootScope.apiHostUrl+"researchservice/research/"+$routeParams.research_id+"/replies",
-    //     method: "GET"
-    // }).then(function successCallback(response) {
-    //     if(response.data.flag == true){
-    //         // alert(JSON.stringify(response.data.repliesList));
-    //     }else if(response.data.flag == false){
-    //         $scope.norepliesfound = "No replies found.";
-    //     }
-    // },function errorCallback(response) {
-    //     swal({
-    //         title: "Error in connection",
-    //         type: "error",
-    //         timer: 3000
-    //     });
-    // });
-    //end - getting replies
+});
 
+
+app.controller("AddResearchCtrl",function ($rootScope,$scope,$http,$window,$route){
+    var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+    
+    $scope.uploadFileToUrl = function(file, uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+            .success(function(){
+                swal({
+                    title: "File uploaded successfully",
+                    type: "success",
+                    timer: 3000
+                });
+            })
+            .error(function(){
+            });
+    };
+    
+    $scope.submitNewResearch = function () {
+        var parameter = JSON.stringify({"resTitle": $scope.resTitle,
+            "resDescription":$scope.resDescription,
+            "userEmail":usr.email
+        });
+        $http({
+            url: $rootScope.apiHostUrl+'researchservice/addnew',
+            method: "POST",
+            data: parameter
+
+        }).then(function successCallback(response) {
+            if(response.data.addRes == true ){
+                alert("Research added");
+            }else {
+                alert("error");
+            }
+            // alert(JSON.stringify(response.data));
+            var file = $scope.researchFile;
+            var uploadUrl = $rootScope.apiHostUrl+'researchservice/addnewupload';
+            $scope.uploadFileToUrl(file, uploadUrl);
+        }, function errorCallback(response) {
+            alert("Connection error");
+        });
+
+    };
 });

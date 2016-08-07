@@ -1,0 +1,50 @@
+<div class="container col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">Add New Research
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/BatWeb/index.html">Home</a>
+                </li>
+                <li class="active">Add Research</li>
+            </ol>
+        </div>
+
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xs-6">
+                <!-- form -->
+                <form name="addresearchForm" ng-submit="submitNewResearch()" novalidate>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label>Research Title</label>
+                            <input name="resTitle" ng-model="resTitle" type="text" class="form-control" required>
+                            <p class="stdErrorMsg" ng-show="addresearchForm.resTitle.$error.required && addresearchForm.resTitle.$dirty">Research Title is required.</p>
+                            <!--<p class="stdErrorMsg" ng-show="addresearchForm.resTitle.$invalid && addresearchForm.resTitle.$dirty" >Enter a valid Research Title.</p>-->
+                        </div>
+                        <div class="form-group">
+                            <label>Research Description</label>
+                            <textarea class="form-control" name="resDescription" ng-model="resDescription" required></textarea>
+                            <p class="stdErrorMsg" ng-show="addresearchForm.resDescription.$error.required && addresearchForm.resDescription.$dirty">Research Description is required.</p>
+                        </div>
+                        <!-- File Button -->
+                        <div class="form-group">
+                            <label>File</label>
+                            <input name="researchFile" class="input-file" type="file" file-model="researchFile" >
+                        </div>
+                    <button type="submit" class="btn btn-primary" ng-disabled="addresearchForm.$invalid" >Submit</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+

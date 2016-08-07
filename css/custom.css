@@ -3,3 +3,7 @@
     height: 175px;
     margin: 10px;
 }
+
+.stdErrorMsg{
+    color: red;
+}
