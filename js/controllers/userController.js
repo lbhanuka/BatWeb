@@ -379,6 +379,8 @@ app.controller('ProfileCtrl',function ($rootScope,$scope,$http,$window) {
  * Accounts manager controller - admin
  */
 app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$route) {
+    $scope.currentUser = JSON.parse($window.sessionStorage.getItem("usr")).email;
+
     //get sign up requests
     $scope.getRequest = function () {
         $http({
@@ -492,6 +494,50 @@ app.controller("AccountManagerCtrl",function ($rootScope,$scope,$http,$window,$r
                     swal({
                         title: "Deactivation failed",
                         text: usremail+" account deactivation failed.",
+                        type: "error",
+                        timer: 3000
+                    });
+                }
+            },function errorCallback(response) {
+                swal({
+                    title: "Error",
+                    text:"Error in connection",
+                    type: "error",
+                    timer: 3000
+                });
+            });
+        });
+
+    };
+
+    $scope.rejectAcc = function (usremail) {
+        swal({
+            title: "Are you sure?",
+            text: "You are going to reject "+usremail,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, Reject it!",
+            closeOnConfirm: false
+        }, function(){
+            var parameter = JSON.stringify({"email": usremail,"type":"reject"});
+            $http({
+                url:$rootScope.apiHostUrl+"userservice/manageaccount",
+                method: "POST",
+                data: parameter
+            }).then(function successCallback(response) {
+                if(response.data.rejected == true){
+                    swal({
+                        title: "Rejected",
+                        text: usremail+" account rejected successfully.",
+                        type: "success",
+                        timer: 3000
+                    });
+                    $route.reload();
+                }else if(response.data.rejected == false){
+                    swal({
+                        title: "Rejection failed",
+                        text: usremail+" account rejection failed.",
                         type: "error",
                         timer: 3000
                     });

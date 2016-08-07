@@ -71,8 +71,9 @@
                     <td>{{r.user_type}}</td>
                     <td>{{r.acc_status}}</td>
                     <td>
-                        <button class="btn-xs btn btn-info" ng-click="activateAcc(r.email)">Activate</button>
-                        <button class="btn-xs btn btn-danger" ng-click="deactivateAcc(r.email)">Deactivate</button>
+                        <button class="btn-xs btn btn-info" ng-show="r.acc_status=='deactivated'" ng-click="activateAcc(r.email)">Activate</button>
+                        <button class="btn-xs btn btn-danger" ng-disabled="r.email==currentUser" ng-show="r.acc_status=='active'" ng-click="deactivateAcc(r.email)">Deactivate</button>
+                        <button class="btn-xs btn btn-danger" ng-show="r.acc_status=='pending'" ng-click="rejectAcc(r.email)">Reject</button>
                     </td>
                 </tr>
                 </tbody>
@@ -109,8 +110,9 @@
                     <td>{{row.user_type}}</td>
                     <td>{{row.acc_status}}</td>
                     <td>
-                        <button class="btn-xs btn btn-info" ng-click="activateAcc(row.email)">Activate</button>
-                        <button class="btn-xs btn btn-danger" ng-click="deactivateAcc(row.email)">Deactivate</button>
+                        <button class="btn-xs btn btn-info" ng-show="row.acc_status=='deactivated'" ng-click="activateAcc(row.email)">Activate</button>
+                        <button class="btn-xs btn btn-danger" ng-disabled="row.email==currentUser" ng-show="row.acc_status=='active'" ng-click="deactivateAcc(row.email)">Deactivate</button>
+                        <button class="btn-xs btn btn-danger" ng-show="row.acc_status=='pending'" ng-click="rejectAcc(row.email)">Reject</button>
                     </td>
                 </tr>
                 </tbody>
