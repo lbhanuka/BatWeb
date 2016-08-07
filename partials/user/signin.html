@@ -21,19 +21,18 @@
                 <!-- form -->
                 <form name="signinForm" ng-submit="submitSigninForm()" novalidate>
                     <!-- email -->
-                    <div class="form-group" ng-class="{ 'has-error' : signinForm.email.$invalid && !signinForm.email.$pristine }">
+                    <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" ng-model="email">
-                        <p ng-show="signinForm.email.$invalid && !signinForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                        <input type="email" name="email" class="form-control" ng-model="email" required>
+                        <p class="stdErrorMsg" ng-show="signinForm.email.$invalid && signinForm.email.$dirty" >Enter a valid email.</p>
+                        <p class="stdErrorMsg" ng-show="signinForm.email.$error.required && signinForm.email.$dirty" >Email is required</p>
                     </div>
 
                     <!-- password -->
-                    <div class="form-group" ng-class="{ 'has-error' : signinForm.password.$invalid && !signinForm.password.$pristine }">
+                    <div class="form-group">
                         <label>Password</label>
                         <input type="password" name="password" class="form-control" ng-model="password" required>
-                        <p ng-show="signinForm.password.$invalid && !signinForm.password.$pristine" class="help-block">password is required.</p>
-                        <!--<p ng-show="signinForm.password.$error.minlength" class="help-block">password is too short.</p>-->
-                        <!--<p ng-show="signinForm.password.$error.maxlength" class="help-block">password is too long.</p>-->
+                        <p class="stdErrorMsg" ng-show="signinForm.password.$error.required && signinForm.password.$dirty">password is required.</p>
                     </div>
                     <a href="#/forgotpassword"> Forgot Password?</a>
                     <button type="submit" class="btn btn-primary" ng-disabled="signinForm.$invalid">Sign in</button>

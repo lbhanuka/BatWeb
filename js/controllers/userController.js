@@ -308,8 +308,8 @@ app.controller('ProfileCtrl',function ($rootScope,$scope,$http,$window) {
             $scope.first_name = response.data.first_name;
             $scope.last_name = response.data.last_name;
             $scope.institute = response.data.institute;
-            $scope.password = response.data.password;
-            $scope.confirmpassword = response.data.password;
+            // $scope.password = response.data.password;
+            // $scope.confirmpassword = response.data.password;
         }else if(response.data.getdetails == false){
             // alert("get details failed");
         }
@@ -329,8 +329,8 @@ app.controller('ProfileCtrl',function ($rootScope,$scope,$http,$window) {
         // check to make sure the form is completely valid
         if ($scope.updateForm.$valid) {
             var parameter = JSON.stringify({"email": usremail,
-                "password":$scope.password,
-                "confirmpassword":$scope.confirmpassword,
+                // "password":$scope.password,
+                // "confirmpassword":$scope.confirmpassword,
                 "first_name":$scope.first_name,
                 "last_name":$scope.last_name,
                 "institute":$scope.institute
@@ -349,7 +349,7 @@ app.controller('ProfileCtrl',function ($rootScope,$scope,$http,$window) {
                 }else if(response.data.updated == false){
                     if(response.data.passwordNtEquals == true){
                         swal({
-                            title: "Update failed",
+                            title: "Update failed.",
                             text: "Password not equals",
                             type: "error",
                             timer: 3000
@@ -373,6 +373,55 @@ app.controller('ProfileCtrl',function ($rootScope,$scope,$http,$window) {
         }
 
     };
+    
+    $scope.submitChangePasswordForm = function () {
+        if ($scope.changePasswordForm.$valid) {
+            var usr = JSON.parse($window.sessionStorage.getItem("usr"));
+            var parameter = JSON.stringify({
+                "email": usr.email,
+                "currentpassword":$scope.currentpassword,
+                "newpassword":$scope.newpassword,
+                "confirmpassword":$scope.confirmpassword
+
+            });
+            $http({
+                url:$rootScope.apiHostUrl+"userservice/changepassword",
+                method: "POST",
+                data: parameter
+            }).then(function successCallback(response) {
+                if(response.data.flag == true){
+                    swal({
+                        title: "Password changed successfully.",
+                        type: "success",
+                        timer: 3000
+                    });
+                }else if(response.data.flag == false){
+                    if(response.data.passwordNtEquals == true){
+                        swal({
+                            title: "Password change failed.",
+                            text: "Password not equals",
+                            type: "error",
+                            timer: 3000
+                        });
+                    }else {
+                        swal({
+                            title: "Password change failed.",
+                            type: "error",
+                            timer: 3000
+                        });
+                    }
+
+                }
+            },function errorCallback(response) {
+                swal({
+                    title: "Error in connection",
+                    type: "error",
+                    timer: 3000
+                });
+            });
+        }
+    };
+    
 });
 
 /**

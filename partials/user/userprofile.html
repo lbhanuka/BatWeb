@@ -20,57 +20,79 @@
             <div class="col-xs-6">
                 <!-- form -->
                 <form name="updateForm" ng-submit="submitUpdateForm()" novalidate>
+
                     <!-- email -->
-                    <div class="form-group" ng-class="{ 'has-error' : updateForm.email.$invalid && !updateForm.email.$pristine }" title="You cannot change your registered email.">
+                    <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" ng-model="email" ng-disabled="true">
-                        <!--<p ng-show="updateForm.email.$invalid && !updateForm.email.$pristine" class="help-block">Enter a valid email.</p>-->
+                        <input type="email" name="email" class="form-control" ng-model="email" ng-disabled="true" title="You cannot change your registered email.">
                     </div>
 
+
+
+                    <!-- first name -->
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="first_name" class="form-control" ng-model="first_name" required ng-minlength="2" ng-pattern ="/^[a-zA-Z\s]*$/">
+                        <p class="stdErrorMsg" ng-show="updateForm.first_name.$error.required && updateForm.first_name.$dirty">First name is required.</p>
+                        <p class="stdErrorMsg" ng-show="updateForm.first_name.$error.pattern && updateForm.first_name.$dirty">First name is invalid.</p>
+                        <p class="stdErrorMsg" ng-show="updateForm.first_name.$error.minlength">First name is too short.</p>
+
+                    </div>
+
+
+                    <!-- last name -->
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="last_name" class="form-control" ng-model="last_name" required ng-minlength="2" ng-pattern ="/^[a-zA-Z\s]*$/">
+                        <p class="stdErrorMsg" ng-show="updateForm.last_name.$error.required  && updateForm.last_name.$dirty">Last name is required.</p>
+                        <p class="stdErrorMsg" ng-show="updateForm.last_name.$error.pattern  && updateForm.last_name.$dirty">Last name is invalid.</p>
+                        <p class="stdErrorMsg" ng-show="updateForm.last_name.$error.minlength" >Last name is too short.</p>
+
+                    </div>
+
+
+                    <!-- institute -->
+                    <div class="form-group">
+                        <label>Institute</label>
+                        <input type="text" name="institute" class="form-control" ng-model="institute" ng-minlength="2" required ng-pattern ="/^[a-zA-Z\s]*$/">
+                        <p class="stdErrorMsg" ng-show="updateForm.institute.$error.required  && updateForm.institute.$dirty">Institute name is required.</p>
+                        <p class="stdErrorMsg" ng-show="updateForm.institute.$error.pattern  && updateForm.institute.$dirty">Institute name is invalid.</p>
+                        <p class="stdErrorMsg" ng-show="updateForm.institute.$error.minlength" >Institute name is too short.</p>
+
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary" ng-disabled="updateForm.$invalid || updateForm.$pristine">Update</button>
+                </form>
+            </div>
+
+            <!--change password form-->
+            <div class="col-xs-5">
+                <form name="changePasswordForm" ng-submit="submitChangePasswordForm()" novalidate>
                     <!-- password -->
-                    <div class="form-group" ng-class="{ 'has-error' : updateForm.password.$invalid && !updateForm.password.$pristine }">
-                        <label>Password</label>
-                        <input type="password" name="password" class="form-control" ng-model="password" required ng-minlength="4" ng-maxlength="25">
-                        <p ng-show="updateForm.password.$invalid && !updateForm.password.$pristine" class="help-block">password is required.</p>
-                        <p ng-show="updateForm.password.$error.minlength" class="help-block">password is too short.</p>
-                        <p ng-show="updateForm.password.$error.maxlength" class="help-block">password is too long.</p>
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" name="currentpassword" class="form-control" ng-model="currentpassword" required>
+                        <p class="stdErrorMsg" ng-show="changePasswordForm.currentpassword.$error.required && changePasswordForm.currentpassword.$dirty" > Current password is required.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" name="newpassword" class="form-control" ng-model="newpassword" required ng-minlength="4">
+                        <p class="stdErrorMsg" ng-show="changePasswordForm.newpassword.$error.required && changePasswordForm.newpassword.$dirty" >New password is required.</p>
+                        <p class="stdErrorMsg" ng-show="changePasswordForm.newpassword.$error.minlength">New password is too short.</p>
                     </div>
 
                     <!-- confirm password-->
-                    <div class="form-group" ng-class="{ 'has-error' : updateForm.confirmpassword.$invalid && !updateForm.confirmpassword.$pristine }">
+                    <div class="form-group">
                         <label>Confirm Password</label>
-                        <input type="password" name="confirmpassword" class="form-control" ng-model="confirmpassword" required ng-minlength="4" ng-maxlength="25">
-                        <p ng-show="updateForm.confirmpassword.$invalid && !updateForm.confirmpassword.$pristine" class="help-block">confirm password is required.</p>
-                        <p ng-show="updateForm.confirmpassword.$error.minlength" class="help-block">confirmpassword is too short.</p>
-                        <p ng-show="updateForm.confirmpassword.$error.maxlength" class="help-block">confirmpassword is too long.</p>
+                        <input type="password" name="confirmpassword" class="form-control" ng-model="confirmpassword" data-match="newpassword" required ng-minlength="4" >
+                        <p class="stdErrorMsg" ng-show="changePasswordForm.confirmpassword.$error.required && changePasswordForm.confirmpassword.$dirty" >Confirm password is required.</p>
+                        <p class="stdErrorMsg" ng-show="changePasswordForm.confirmpassword.$error.minlength" >Confirm password is too short.</p>
+                        <p class="stdErrorMsg" ng-show="newpassword!=confirmpassword && changePasswordForm.confirmpassword.$dirty ">Passwords does not match.</p>
                     </div>
 
-                    <!-- first name -->
-                    <div class="form-group" ng-class="{ 'has-error' : updateForm.first_name.$invalid && !updateForm.first_name.$pristine }">
-                        <label>First Name</label>
-                        <input type="text" name="first_name" class="form-control" ng-model="first_name" required ng-minlength="2" ng-maxlength="25">
-                        <p ng-show="updateForm.first_name.$invalid && !updateForm.first_name.$pristine" class="help-block">first_name is required.</p>
-                        <p ng-show="updateForm.first_name.$error.minlength" class="help-block">first_name is too short.</p>
-                        <p ng-show="updateForm.first_name.$error.maxlength" class="help-block">first_name is too long.</p>
-                    </div>
-
-                    <!-- last name -->
-                    <div class="form-group" ng-class="{ 'has-error' : updateForm.last_name.$invalid && !updateForm.last_name.$pristine }">
-                        <label>Last Name</label>
-                        <input type="text" name="last_name" class="form-control" ng-model="last_name" required ng-minlength="2" ng-maxlength="25">
-                        <p ng-show="updateForm.last_name.$invalid && !updateForm.last_name.$pristine" class="help-block">last_name is required.</p>
-                        <p ng-show="updateForm.last_name.$error.minlength" class="help-block">last_name is too short.</p>
-                        <p ng-show="updateForm.last_name.$error.maxlength" class="help-block">last_name is too long.</p>
-                    </div>
-
-                    <!-- institute -->
-                    <div class="form-group" ng-class="{ 'has-error' : updateForm.institute.$invalid && !updateForm.institute.$pristine }">
-                        <label>Institute</label>
-                        <input type="text" name="institute" class="form-control" ng-model="institute" ng-minlength="2" ng-maxlength="50">
-                        <p ng-show="updateForm.institute.$error.minlength" class="help-block">institute is too short.</p>
-                        <p ng-show="updateForm.institute.$error.maxlength" class="help-block">institute is too long.</p>
-                    </div>
-                    <button type="submit" class="btn btn-primary" ng-disabled="updateForm.$invalid">Update</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="changePasswordForm.$invalid || newpassword!=confirmpassword">Change Password</button>
                 </form>
             </div>
         </div>
