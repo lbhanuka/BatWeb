@@ -25,6 +25,29 @@ app.controller("ResearchHomeCtrl",function ($rootScope,$scope,$http,$window,$rou
             });
         });
     };
+    $scope.searchFlag = false;
+    $scope.searchResearch = function () {
+        $scope.searchFlag = true;
+        $http({
+            url:$rootScope.apiHostUrl+"researchservice/search/"+$scope.searchTerm,
+            method: "GET"
+        }).then(function successCallback(response) {
+            if(response.data.searchResearchList.length > 0){
+                $scope.searchResearchList = response.data.searchResearchList;
+                $scope.noSearchResFound = '';
+            }else{
+                $scope.searchResearchList = [];
+                $scope.noSearchResFound = 'No Search Results Found.';
+            }
+        },function errorCallback(response) {
+            // swal({
+            //     title: "Error in connection",
+            //     type: "error",
+            //     timer: 3000
+            // });
+        });
+
+    };
 });
 
 
